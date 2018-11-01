@@ -1,0 +1,41 @@
+#:kivy 1.10.1
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+<Button>:
+    background_normal: "images/button.png"
+    background_down: "images/button_pressed.png"
+
+
+<WelcomeScreen>:
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10, 10
+        spacing: 10
+        ActionBar:
+            height: 40
+            size_hint_y: None
+        BoxLayout:
+            orientation: "vertical"
+            padding: 138, 40, 138, 120
+            spacing: 40
+            Image:
+                source: "images/logo.png"
+                height: 32
+                size_hint_y: None
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: 30
+                Button:
+                    text: "Open"
+                Button:
+                    text: "New"
+                Button:
+                    text: "Tutorial"
+        ActionBar:
+            height: 40
+            size_hint_y: None
