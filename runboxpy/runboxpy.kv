@@ -1,8 +1,22 @@
 #:kivy 1.10.1
 #:import get_color_from_hex kivy.utils.get_color_from_hex
+
 <Button>:
     background_normal: "images/button.png"
     background_down: "images/button_pressed.png"
+
+<IconButton>:
+    icon: ""
+    StackLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        orientation: 'lr-tb'
+        Image:
+            source: root.icon
+
+
+<ActionBar>:
+    background_image: "images/action_bar.png"
 
 
 <WelcomeScreen>:
@@ -21,7 +35,7 @@
             size_hint_y: None
         BoxLayout:
             orientation: "vertical"
-            padding: 138, 40, 138, 120
+            padding: 148, 48, 148, 118
             spacing: 40
             Image:
                 source: "images/logo.png"
@@ -30,12 +44,46 @@
             BoxLayout:
                 orientation: "horizontal"
                 spacing: 30
-                Button:
-                    text: "Open"
-                Button:
-                    text: "New"
-                Button:
-                    text: "Tutorial"
+                IconButton:
+                    icon: "images/open-file_icon.png"
+                IconButton:
+                    icon: "images/new-file_icon.png"
+                    on_release: root.manager.current = "edit"
+                IconButton:
+                    icon: "images/explore_icon.png"
+        ActionBar:
+            height: 40
+            size_hint_y: None
+
+
+<EditScreen>:
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10, 10
+        spacing: 10
+        ActionBar:
+            height: 40
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+                    ActionButton:
+                        icon: "images/open-file_icon.png"
+                        width: 40
+                    ActionButton:
+                        icon: "images/save-file_icon.png"
+                        width: 40
+                    ActionButton:
+                        icon: "images/new-file_icon.png"
+                        width: 40
+        CodeInput:
         ActionBar:
             height: 40
             size_hint_y: None
