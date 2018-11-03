@@ -1,11 +1,21 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
-from kivy.properties import StringProperty
+from kivy.uix.boxlayout import BoxLayout
+# from kivy.uix.widget import Widget
+from kivy.uix.behaviors import DragBehavior
+# from kivy.uix.relativelayout import RelativeLayout
+# from kivy.uix.floatlayout import FloatLayout
+from kivy.properties import StringProperty, ListProperty
 from kivy.config import Config
 
 Config.set('graphics', 'width', '620')
 Config.set('graphics', 'height', '440')
+
+
+class BlockCode(DragBehavior, BoxLayout):
+    background_color = ListProperty([1, 1, 1, 1])
+    border_color = ListProperty([1, 1, 1, 1])
 
 
 class IconButton(Button):
