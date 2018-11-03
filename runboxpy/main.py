@@ -3,7 +3,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 # from kivy.uix.stacklayout import StackLayout
-# from kivy.uix.widget import Widget
+from kivy.uix.widget import Widget
 from kivy.uix.behaviors import DragBehavior
 # from kivy.uix.relativelayout import RelativeLayout
 # from kivy.uix.floatlayout import FloatLayout
@@ -14,7 +14,7 @@ Config.set('graphics', 'width', '620')
 Config.set('graphics', 'height', '440')
 
 
-class BlockCode(BoxLayout):
+class BlockCode(Widget):
     background_color = ListProperty([1, 1, 1, 1])
     border_color = ListProperty([1, 1, 1, 1])
 
@@ -31,18 +31,6 @@ class BlockScript(DragBehavior, BoxLayout):
 
     def on_script_name(self, _, script_name):
         self.id = script_name
-
-
-# class ScriptManager:
-#     def __init__(self, manager_user):
-#         self.manager_user = manager_user
-#         self.scripts = {}
-
-#     def add_script(self, script_name, code):
-#         self.scripts[script_name] = code
-
-#     def run_script(self, script_name):
-#         eval(script_name)
 
 
 class IconButton(Button):

@@ -38,6 +38,8 @@
         Line:
             width: 2
             rectangle: self.x, self.y, self.width, self.height
+    height: 20
+    size_hint_y: None
 
 
 <BlockScript>:
@@ -60,12 +62,22 @@
     drag_distance: 0
     orientation: "vertical"
     size_hint_x: 0.2
+    height: self.minimum_height
+    size_hint_y: None
     Button:
+        text: "run"
+        height: 25
+        size_hint_y: None
         on_release: exec(root.code)
     TextInput:
         id: script_name_input
         hint_text: "script name"
+        font_size: 16
+        size_hint_y: None
+        height: self.font_size * 2
     Button:
+        height: 25
+        size_hint_y: None
         id: add_button
         text: "+"
         on_release: root.add_block()
@@ -83,16 +95,32 @@
     BlockScript:
 
 
-# <BlockCodeGenArea@RelativeLayout>:
-#     height: 60
-#     size_hint_y: None
-#     canvas.before:
-#         Color:
-#             rgba: 1, 1, 1, 1
-#         Rectangle:
-#             size: self.size
-#             source: "images/generate-block-area.png"
+<SpinnerOption>:
+    height: 30
+    size_hint_y: None
 
+
+<BlockChooseArea@RelativeLayout>:
+    width: 150
+    size_hint_x: None
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#D1D1D1")
+        Rectangle:
+            size: self.size
+        Color:
+            rgba: get_color_from_hex("#607D8B")
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+    AnchorLayout:
+        anchor_y: "top"
+        Spinner:
+            id: block_list_spinner
+            text: "Blocks"
+            values: "Home", "Work", "Other", "Custom"
+            size_hint_y: None
+            height: 40
 
 <WelcomeScreen>:
     canvas.before:
@@ -160,10 +188,10 @@
                         icon: "images/new-file_icon.png"
                         width: 40
         BoxLayout:
-            orientation: "vertical"
+            orientation: "horizontal"
             BlockCodeArea:
                 id: block_code_area
-            # BlockCodeGenArea:
+            BlockChooseArea:
         BoxLayout:
             canvas.before:
                 Color:
