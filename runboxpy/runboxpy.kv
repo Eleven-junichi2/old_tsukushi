@@ -26,7 +26,24 @@
 
 <BlockCode>:
     background_color: get_color_from_hex("#6495ED")
-    border_color: get_color_from_hex("#607D8B") 
+    border_color: get_color_from_hex("#607D8B")
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: root.border_color
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+
+<BlockScript>:
+    background_color: get_color_from_hex("#64ED95")
+    border_color: get_color_from_hex("#607D8B")
+    script_name: script_name_input.text
     canvas.before:
         Color:
             rgba: root.background_color
@@ -42,17 +59,16 @@
     drag_timeout: 10000000
     drag_distance: 0
     orientation: "vertical"
+    size_hint_x: 0.2
+    Button:
+        on_release: exec(root.code)
     TextInput:
-        id: block_name
+        id: script_name_input
         hint_text: "script name"
     Button:
-        id: button
+        id: add_button
         text: "+"
-
-
-<BlockCodeStartPoint@BlockCode>:
-    background_color: get_color_from_hex("#64ED95")
-    border_color: get_color_from_hex("#607D8B")
+        on_release: root.add_block()
 
 
 <BlockCodeArea@RelativeLayout>:
@@ -64,19 +80,18 @@
             # pos: self.pos
             source: "images/code_input.png"
     orientation: "vertical"
-    BlockCodeStartPoint:
-        size_hint: 0.22, 0.22
+    BlockScript:
 
 
-<BlockCodeGenArea@RelativeLayout>:
-    height: 60
-    size_hint_y: None
-    canvas.before:
-        Color:
-            rgba: 1, 1, 1, 1
-        Rectangle:
-            size: self.size
-            source: "images/generate-block-area.png"
+# <BlockCodeGenArea@RelativeLayout>:
+#     height: 60
+#     size_hint_y: None
+#     canvas.before:
+#         Color:
+#             rgba: 1, 1, 1, 1
+#         Rectangle:
+#             size: self.size
+#             source: "images/generate-block-area.png"
 
 
 <WelcomeScreen>:
@@ -117,6 +132,7 @@
 
 
 <EditScreen>:
+    block_code_area: block_code_area
     canvas.before:
         Color:
             rgba: get_color_from_hex("#464646")
@@ -146,7 +162,8 @@
         BoxLayout:
             orientation: "vertical"
             BlockCodeArea:
-            BlockCodeGenArea:
+                id: block_code_area
+            # BlockCodeGenArea:
         BoxLayout:
             canvas.before:
                 Color:
@@ -159,6 +176,5 @@
             height: 40
             size_hint_y: None
             Button:
-                text: "variable"
-            Button:
-                text: "print"
+                text: "Add script"
+                on_release: root.add_script()
