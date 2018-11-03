@@ -28,9 +28,6 @@ class BlockScript(DragBehavior, BoxLayout):
     def add_block(self):
         self.add_widget(BlockCode())
         self.code += 'print("test")\n'
-    
-    def run_script(self):
-
 
     def on_script_name(self, _, script_name):
         self.id = script_name
