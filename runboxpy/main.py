@@ -19,18 +19,40 @@ class BlockCode(Widget):
     border_color = ListProperty([1, 1, 1, 1])
 
 
+class BlockFunction(BoxLayout):
+    background_color = ListProperty([1, 1, 1, 1])
+    border_color = ListProperty([1, 1, 1, 1])
+    function_name = ObjectProperty(None)
+    argments = ObjectProperty(None)
+
+
 class BlockScript(DragBehavior, BoxLayout):
     background_color = ListProperty([1, 1, 1, 1])
     border_color = ListProperty([1, 1, 1, 1])
     script_name = StringProperty("")
     code = StringProperty("")
 
-    def add_block(self):
-        self.add_widget(BlockCode())
-        self.code += 'print("test")\n'
+    def add_block(self, block_chooser):
+        if block_chooser.text == "print":
+            block = BlockFunction()
+            block.function_name.text = "print"
+        else:
+            block = BlockCode()
+        self.add_widget(block)
 
     def on_script_name(self, _, script_name):
         self.id = script_name
+
+    def run_script(self):
+        self.code = ""
+        can_exec_code = False
+        for widget in self.children:
+            if isinstance(widget, BlockFunction):
+                self.code += "{}({})\n".format(
+                    widget.function_name.text, widget.argments.text)
+                can_exec_code = True
+        if can_exec_code:
+            exec(self.code)
 
 
 class IconButton(Button):

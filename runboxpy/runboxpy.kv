@@ -42,6 +42,36 @@
     size_hint_y: None
 
 
+<BlockFunction>:
+    function_name: function_name
+    argments: argments
+    background_color: get_color_from_hex("#64ED95")
+    border_color: get_color_from_hex("#607D8B")
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: root.border_color
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+    height: argments.height + function_name.height
+    size_hint_y: None
+    orientation: "vertical"
+    Label:
+        id: function_name
+        size_hint_y: None
+        height: self.font_size * 2
+    TextInput:
+        id: argments
+        hint_text: "(argments)"
+        size_hint_y: None
+        height: self.font_size * 2
+
+
 <BlockScript>:
     background_color: get_color_from_hex("#64ED95")
     border_color: get_color_from_hex("#607D8B")
@@ -68,7 +98,7 @@
         text: "run"
         height: 25
         size_hint_y: None
-        on_release: exec(root.code)
+        on_release: root.run_script()
     TextInput:
         id: script_name_input
         hint_text: "script name"
@@ -80,7 +110,7 @@
         size_hint_y: None
         id: add_button
         text: "+"
-        on_release: root.add_block()
+        on_release: root.add_block(app.screen_manager.get_screen("edit").block_choose_area.block_chooser)
 
 
 <BlockCodeArea@RelativeLayout>:
@@ -101,6 +131,7 @@
 
 
 <BlockChooseArea@RelativeLayout>:
+    block_chooser: block_chooser
     width: 150
     size_hint_x: None
     canvas.before:
@@ -116,9 +147,9 @@
     AnchorLayout:
         anchor_y: "top"
         Spinner:
-            id: block_list_spinner
-            text: "Blocks"
-            values: "Home", "Work", "Other", "Custom"
+            id: block_chooser
+            values: "print", "variable", "Other", "Custom"
+            text: self.values[0]
             size_hint_y: None
             height: 40
 
@@ -161,6 +192,7 @@
 
 <EditScreen>:
     block_code_area: block_code_area
+    block_choose_area: block_choose_area
     canvas.before:
         Color:
             rgba: get_color_from_hex("#464646")
@@ -192,6 +224,7 @@
             BlockCodeArea:
                 id: block_code_area
             BlockChooseArea:
+                id: block_choose_area
         BoxLayout:
             canvas.before:
                 Color:
