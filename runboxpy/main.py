@@ -1,3 +1,5 @@
+import traceback
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
@@ -14,16 +16,24 @@ Config.set('graphics', 'width', '620')
 Config.set('graphics', 'height', '440')
 
 
+class BlockCodeBase:
+    background_color = ListProperty([1, 1, 1, 1])
+    border_color = ListProperty([1, 1, 1, 1])
+
+
 class BlockCode(Widget):
     background_color = ListProperty([1, 1, 1, 1])
     border_color = ListProperty([1, 1, 1, 1])
 
 
-class BlockFunction(BoxLayout):
-    background_color = ListProperty([1, 1, 1, 1])
-    border_color = ListProperty([1, 1, 1, 1])
+class BlockFunction(BoxLayout, BlockCodeBase):
     function_name = ObjectProperty(None)
     argments = ObjectProperty(None)
+
+
+class BlockVariable(BoxLayout, BlockCodeBase):
+    variable_name = StringProperty("")
+    value = StringProperty("")
 
 
 class BlockScript(DragBehavior, BoxLayout):
@@ -36,6 +46,8 @@ class BlockScript(DragBehavior, BoxLayout):
         if block_chooser.text == "print":
             block = BlockFunction()
             block.function_name.text = "print"
+        elif block_chooser.text == "variable":
+            block = BlockVariable()
         else:
             block = BlockCode()
         self.add_widget(block)
@@ -46,13 +58,22 @@ class BlockScript(DragBehavior, BoxLayout):
     def run_script(self):
         self.code = ""
         can_exec_code = False
-        for widget in self.children:
-            if isinstance(widget, BlockFunction):
+        for child_widget in reversed(self.children):
+            # Generate python code.
+            if isinstance(child_widget, BlockFunction):
                 self.code += "{}({})\n".format(
-                    widget.function_name.text, widget.argments.text)
+                    child_widget.function_name.text,
+                    child_widget.argments.text)
+                can_exec_code = True
+            elif isinstance(child_widget, BlockVariable):
+                self.code += "{} = {}\n".format(
+                    child_widget.variable_name, child_widget.value)
                 can_exec_code = True
         if can_exec_code:
-            exec(self.code)
+            try:
+                exec(self.code)
+            except Exception:
+                traceback.print_exc()
 
 
 class IconButton(Button):

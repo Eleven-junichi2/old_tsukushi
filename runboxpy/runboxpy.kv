@@ -24,8 +24,8 @@
     background_image: "images/action_bar.png"
 
 
-<BlockCode>:
-    background_color: get_color_from_hex("#6495ED")
+<BlockCodeBase>:
+    background_color: get_color_from_hex("#FFFFFF")
     border_color: get_color_from_hex("#607D8B")
     canvas.before:
         Color:
@@ -38,33 +38,26 @@
         Line:
             width: 2
             rectangle: self.x, self.y, self.width, self.height
-    height: 20
-    size_hint_y: None
 
 
 <BlockFunction>:
     function_name: function_name
     argments: argments
     background_color: get_color_from_hex("#64ED95")
-    border_color: get_color_from_hex("#607D8B")
-    canvas.before:
-        Color:
-            rgba: root.background_color
-        Rectangle:
-            size: self.size
-            pos: self.pos
-        Color:
-            rgba: root.border_color
-        Line:
-            width: 2
-            rectangle: self.x, self.y, self.width, self.height
     height: argments.height + function_name.height
     size_hint_y: None
     orientation: "vertical"
-    Label:
-        id: function_name
-        size_hint_y: None
-        height: self.font_size * 2
+    BoxLayout:
+        orientation: "horizontal"
+        Label:
+            id: function_name
+            size_hint_y: None
+            height: self.font_size * 2
+        Button:
+            text: "x"
+            width: 25
+            size_hint_x: None
+            on_release: root.parent.remove_widget(root)
     TextInput:
         id: argments
         hint_text: "(argments)"
@@ -72,6 +65,44 @@
         height: self.font_size * 2
         multiline: False
 
+
+<BlockVariable>:
+    variable_name: variable_name.text
+    value: value.text
+    background_color: get_color_from_hex("#FFFFFF")
+    border_color: get_color_from_hex("#607D8B")
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: root.border_color
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+    height: variable_name.height + value.height
+    size_hint_y: None
+    orientation: "vertical"
+    BoxLayout:
+        orientation: "horizontal"
+        TextInput:
+            id: variable_name
+            size_hint_y: None
+            height: self.font_size * 2
+            multiline: False
+        Button:
+            text: "x"
+            width: 25
+            size_hint_x: None
+            on_release: root.parent.remove_widget(root)
+    TextInput:
+        id: value
+        hint_text: "(value)"
+        size_hint_y: None
+        height: self.font_size * 2
+        multiline: False
 
 <BlockScript>:
     background_color: get_color_from_hex("#64ED95")
@@ -95,11 +126,18 @@
     size_hint_x: 0.2
     height: self.minimum_height
     size_hint_y: None
-    Button:
-        text: "run"
-        height: 25
-        size_hint_y: None
-        on_release: root.run_script()
+    BoxLayout:
+        orientation: "horizontal"
+        Button:
+            text: "run"
+            height: 25
+            size_hint_y: None
+            on_release: root.run_script()
+        Button:
+            text: "x"
+            size: 25, 25
+            size_hint: None, None
+            on_release: root.parent.remove_widget(root)
     TextInput:
         id: script_name_input
         hint_text: "script name"
