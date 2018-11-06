@@ -89,6 +89,7 @@
         orientation: "horizontal"
         TextInput:
             id: variable_name
+            hint_text: "variable name"
             size_hint_y: None
             height: self.font_size * 2
             multiline: False
@@ -99,7 +100,7 @@
             on_release: root.parent.remove_widget(root)
     TextInput:
         id: value
-        hint_text: "(value)"
+        hint_text: "value"
         size_hint_y: None
         height: self.font_size * 2
         multiline: False
