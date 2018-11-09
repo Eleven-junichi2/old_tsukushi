@@ -1,5 +1,10 @@
 #:kivy 1.10.1
 #:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import Path pathlib.Path
+
+<Label>:
+    font_name: "NotoSansCJKjp"
+
 
 <TextInput>:
     background_normal: "images/code_input.png"
@@ -9,6 +14,7 @@
 <Button>:
     background_normal: "images/button.png"
     background_down: "images/button_pressed.png"
+
 
 <IconButton>:
     icon: ""
@@ -29,16 +35,19 @@
     BoxLayout:
         pos: self.parent.pos
         size: self.parent.size
-        padding: dp(10)
+        padding: dp(2)
         Label:
-            text: self.parent.parent.text
+            text: root.text
         BoxLayout:
-            Button:
-                id: close_tab_button
-                text: "x"
-            Button:
-                id: add_tab_button
-                text: "+"
+            AnchorLayout:
+                anchor_x: "right"
+                Button:
+                    id: close_tab_button
+                    text: "x"
+                    size_hint: None, None
+                    width: self.texture_size[1]
+                    height: self.texture_size[1]
+                    on_release: root.parent.remove_widget(root)
 
 
 <EditArea>:
@@ -50,7 +59,25 @@
     #         text: "+"
     #         on_release: root.add_panel()
     EditPanelHeader:
-    EditPanelHeader:
+
+
+<Editor@BoxLayout>:
+    orientation: "horizontal"
+    BoxLayout:
+        orientation: "vertical"
+        FileChooserListView:
+            id: file_chooser
+            path: str(Path.home())
+            # on_: print(f"touch, {self.selection}")
+        BoxLayout:
+            orientation: "vertical"
+            TextInput:
+                text: file_chooser.path
+            Button:
+                text: "Open"
+    EditArea:
+    # CodeInput:
+        # id: code_input
 
 
 <WelcomeScreen>:
@@ -118,13 +145,7 @@
                     ActionButton:
                         icon: "images/new-file_icon.png"
                         width: 40
-        BoxLayout:
-            orientation: "horizontal"
-            FileChooserListView:
-                id: file_chooser
-            EditArea:
-            # CodeInput:
-                # id: code_input
+        Editor:
         BoxLayout:
             canvas.before:
                 Color:
