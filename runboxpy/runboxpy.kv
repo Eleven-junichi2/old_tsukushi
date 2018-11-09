@@ -24,6 +24,35 @@
     background_image: "images/action_bar.png"
 
 
+<EditPanelHeader@TabbedPanelHeader>:
+    text: ""
+    BoxLayout:
+        pos: self.parent.pos
+        size: self.parent.size
+        padding: dp(10)
+        Label:
+            text: self.parent.parent.text
+        BoxLayout:
+            Button:
+                id: close_tab_button
+                text: "x"
+            Button:
+                id: add_tab_button
+                text: "+"
+
+
+<EditArea>:
+    do_default_tab: False
+    # TabbedPanelHeader:
+    #     text: 'Step 2'
+    #     Button:
+    #         size_hint: 0.6, 0.6
+    #         text: "+"
+    #         on_release: root.add_panel()
+    EditPanelHeader:
+    EditPanelHeader:
+
+
 <WelcomeScreen>:
     canvas.before:
         Color:
@@ -62,7 +91,7 @@
 
 
 <EditScreen>:
-    code_input: code_input
+    # code_input: code_input
     canvas.before:
         Color:
             rgba: get_color_from_hex("#464646")
@@ -91,8 +120,9 @@
                         width: 40
         BoxLayout:
             orientation: "horizontal"
-            CodeInput:
-                id: code_input
+            EditArea:
+            # CodeInput:
+                # id: code_input
         BoxLayout:
             canvas.before:
                 Color:
@@ -106,4 +136,3 @@
             size_hint_y: None
             Button:
                 text: "Run script"
-                on_release: root.run_code()

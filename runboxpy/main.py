@@ -1,9 +1,11 @@
-import traceback
+# from pathlib import Path
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
-from kivy.properties import StringProperty, ObjectProperty
+from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
+from kivy.properties import StringProperty
+# from kivy.garden.xpopup import XFileSave
 from kivy.config import Config
 
 Config.set('graphics', 'width', '620')
@@ -14,14 +16,22 @@ class IconButton(Button):
     icon = StringProperty("")
 
 
-class EditScreen(Screen):
-    code_input = ObjectProperty(None)
+class EditPanel(TabbedPanelItem):
+    pass
 
-    def run_code(self):
-        try:
-            exec(self.code_input.text)
-        except Exception:
-            traceback.print_exc()
+
+class EditArea(TabbedPanel):
+    def add_panel(self):
+        self.add_widget(EditPanel())
+
+
+class EditScreen(Screen):
+    # code_input = ObjectProperty(None)
+
+    def save(self):
+        pass
+        # home_dir = Path.home()
+        # popup = XFileSave()
 
 
 class WelcomeScreen(Screen):
