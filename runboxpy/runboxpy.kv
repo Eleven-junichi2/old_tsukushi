@@ -7,6 +7,7 @@
 
 
 <TextInput>:
+    font_name: "NotoSansCJKjp"
     background_normal: "images/code_input.png"
     background_active: "images/code_input.png"
 
@@ -30,7 +31,7 @@
     background_image: "images/action_bar.png"
 
 
-<EditPanelHeader@TabbedPanelHeader>:
+<EditPanelHeader>:
     text: ""
     BoxLayout:
         pos: self.parent.pos
@@ -47,18 +48,23 @@
                     size_hint: None, None
                     width: self.texture_size[1]
                     height: self.texture_size[1]
-                    on_release: root.parent.remove_widget(root)
+                    on_release:
+                        root.parent.remove_widget(root)
+                        root.content.clear_widgets()
+
+
+<EditPanel>:
+    CodeInput:
 
 
 <EditArea>:
+    panels: panels
     do_default_tab: False
-    # TabbedPanelHeader:
-    #     text: 'Step 2'
-    #     Button:
-    #         size_hint: 0.6, 0.6
-    #         text: "+"
-    #         on_release: root.add_panel()
-    EditPanelHeader:
+    FloatLayout:
+        id: panels
+    BoxLayout:
+        id: panel_headers
+        orientation: "horizontal"
 
 
 <Editor@BoxLayout>:
@@ -71,13 +77,21 @@
             # on_: print(f"touch, {self.selection}")
         BoxLayout:
             orientation: "vertical"
+            size_hint_y: None
+            height: self.minimum_height
             TextInput:
                 text: file_chooser.path
+                multiline: False
+                size_hint_y: None
+                height: self.minimum_height
             Button:
                 text: "Open"
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_release: edit_area.add_panel()
+    # Splitter:
     EditArea:
-    # CodeInput:
-        # id: code_input
+        id: edit_area
 
 
 <WelcomeScreen>:

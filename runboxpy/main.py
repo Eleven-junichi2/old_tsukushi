@@ -1,8 +1,9 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
-from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelItem
-from kivy.properties import StringProperty
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader
+from kivy.properties import StringProperty, ObjectProperty
 # from kivy.garden.xpopup import XFileSave
 from kivy.core.text import LabelBase
 from kivy.config import Config
@@ -19,13 +20,24 @@ class IconButton(Button):
     icon = StringProperty("")
 
 
-class EditPanel(TabbedPanelItem):
+class EditPanel(RelativeLayout):
+    pass
+
+
+class EditPanelHeader(TabbedPanelHeader):
     pass
 
 
 class EditArea(TabbedPanel):
+    panels = ObjectProperty(None)
+    panel_headers = ObjectProperty(None)
+
     def add_panel(self):
-        self.add_widget(EditPanel())
+        edit_panel_header = EditPanelHeader()
+        edit_panel = EditPanel()
+        edit_panel_header.content = edit_panel
+        self.panels.add_widget(EditPanelHeader())
+        self.add_widget(edit_panel_header)
 
 
 class EditScreen(Screen):
