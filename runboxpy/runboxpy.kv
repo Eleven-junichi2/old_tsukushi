@@ -15,16 +15,19 @@
 <Button>:
     background_normal: "images/button.png"
     background_down: "images/button_pressed.png"
+    border: 2, 2, 2, 2
 
 
 <IconButton>:
-    icon: ""
-    StackLayout:
+    Widget:
         pos: self.parent.pos
         size: self.parent.size
-        orientation: 'lr-tb'
-        Image:
-            source: root.icon
+        canvas.before:
+            Rectangle:
+                source: root.icon
+                pos: self.x + root.padding_left, self.y + root.padding_bottom
+                size: self.width - root.padding_right * 2, self.height - root.padding_top * 2
+                
 
 
 <ActionBar>:
@@ -69,27 +72,42 @@
 
 <Editor@BoxLayout>:
     orientation: "horizontal"
-    BoxLayout:
-        orientation: "vertical"
-        FileChooserListView:
-            id: file_chooser
-            path: str(Path.home())
-            # on_: print(f"touch, {self.selection}")
+    Splitter:
+        min_size: self.parent.width * 0.22
+        max_size: self.parent.width * 0.78
+        sizable_from: "right"
         BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: get_color_from_hex("#D1D1D1")
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                Color:
+                    rgba: get_color_from_hex("#607D8B")
+                Line:
+                    width: dp(1)
+                    rectangle: self.x, self.y, self.width, self.height
+            id: file_browser
             orientation: "vertical"
-            size_hint_y: None
-            height: self.minimum_height
-            TextInput:
-                text: file_chooser.path
-                multiline: False
-                size_hint_y: None
-                height: self.minimum_height
-            Button:
-                text: "Open"
-                size_hint_y: None
-                height: self.texture_size[1]
-                on_release: edit_area.add_panel()
-    # Splitter:
+            TreeView:
+                root_options: {"text": "hello_world", "font_size": sp(16)}
+            # TextInput:
+            #     text: file_chooser.path
+            #     font_size: sp(12)
+            #     multiline: False
+            #     size_hint_y: None
+            #     height: self.minimum_height
+            # FileChooser:
+            #     id: file_chooser
+            #     path: str(Path.home())
+            #     FileChooserListLayout
+            #     # on_: print(f"touch, {self.selection}")
+            # Button:
+            #     text: "Open"
+            #     size_hint_y: None
+            #     height: self.texture_size[1]
+            #     on_release: edit_area.add_panel()
     EditArea:
         id: edit_area
 
@@ -103,33 +121,118 @@
             pos: self.pos
     BoxLayout:
         orientation: "vertical"
-        padding: 10, 10
-        spacing: 10
+        padding: dp(15), dp(15)
         ActionBar:
-            height: 40
+            height: dp(60)
             size_hint_y: None
         BoxLayout:
             orientation: "vertical"
-            padding: 148, 48, 148, 118
-            spacing: 40
+            padding: root.width * 0.241935484, root.height * 0.113636364, root.width * 0.241935484, root.height * 0.295454545
+            spacing: root.height * 0.113636364
             Image:
                 source: "images/logo.png"
-                height: 32
+                height: dp(45)
                 size_hint_y: None
+                allow_stretch: True
             BoxLayout:
                 orientation: "horizontal"
-                spacing: 30
+                spacing: root.width * 0.048387097
                 IconButton:
                     icon: "images/open-file_icon.png"
+                    padding: [25, 29.4, 25, 29.4]
                 IconButton:
                     icon: "images/new-file_icon.png"
-                    on_release: root.manager.current = "edit"
+                    padding: [25, 25, 25, 25]
+                    on_release: root.manager.current = "new_project"
                 IconButton:
                     icon: "images/explore_icon.png"
+                    padding: [25, 25, 25, 25]
         ActionBar:
-            height: 40
+            height: dp(60)
             size_hint_y: None
 
+
+<NewProjectScreen>:
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15), dp(15), root.height * 0.301212121
+        spacing: root.height * 0.187575758
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+        BoxLayout:
+            orientation: "vertical"
+            padding: root.width * 0.335483871, 0
+            spacing: dp(22)
+            BoxLayout:
+                orientation: "vertical"
+                spacing: dp(8)
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Project name"
+                        font_size: sp(21)
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    TextInput:
+                        id: new_project_name
+                        size_hint_y: None
+                        height: dp(34)
+                        multiline: False
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Project location"
+                        font_size: sp(21)
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: root.width, None
+                        halign: "center"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        TextInput:
+                            id: project_location
+                            text: "~/Projects"
+                            size_hint_y: None
+                            height: dp(34)                        
+                            multiline: False
+                        IconButton:
+                            icon: "images/open-file_icon.png"
+                            size_hint_x: 0.3
+                            # allow_stretch: True
+                    Label:
+                        text: "Your project will be created within a new child directory."
+                        color: get_color_from_hex("#E8E8E8")
+                        font_size: sp(16)
+                        text_size: root.width, None
+                        halign: "center"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+            Button:
+                text: "Create"
+                color: get_color_from_hex("#EDED95")
+                font_size: sp(24)
+                size_hint_y: None
+                text_size: self.width, None
+                halign: "center"
+                size: self.texture_size[0] + dp(115) * 2, self.texture_size[1] + dp(9.7) * 2
 
 <EditScreen>:
     # code_input: code_input
@@ -144,7 +247,7 @@
         padding: 10, 10
         spacing: 10
         ActionBar:
-            height: 40
+            height: dp(60)
             size_hint_y: None
             ActionView:
                 ActionPrevious:
@@ -152,13 +255,13 @@
                     on_release: root.manager.current = "welcome"
                     ActionButton:
                         icon: "images/open-file_icon.png"
-                        width: 40
+                        width: self.height
                     ActionButton:
                         icon: "images/save-file_icon.png"
-                        width: 40
+                        width: self.height
                     ActionButton:
                         icon: "images/new-file_icon.png"
-                        width: 40
+                        width: self.height
         Editor:
         BoxLayout:
             canvas.before:
@@ -169,7 +272,7 @@
                     pos: self.pos
                     source: "images/action_bar.png"
             orientation: "horizontal"
-            height: 40
+            height: dp(60)
             size_hint_y: None
             Button:
                 text: "Run script"
