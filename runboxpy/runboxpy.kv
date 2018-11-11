@@ -212,6 +212,8 @@
 
 
 <NewProjectScreen>:
+    new_project_name: new_project_name
+    project_location: project_location
     canvas.before:
         Color:
             rgba: get_color_from_hex("#464646")
@@ -267,7 +269,7 @@
                         height: self.minimum_height
                         TextInput:
                             id: project_location
-                            text: "~/Projects"
+                            text: str(Path.home() / "Projects")
                             size_hint_y: None
                             height: dp(34)                        
                             multiline: False
@@ -294,6 +296,9 @@
                 text_size: self.width, None
                 halign: "center"
                 size: self.texture_size[0] + dp(115) * 2, self.texture_size[1] + dp(9.7) * 2
+                on_release:
+                    root.create_project()
+                    root.manager.current = "edit"
 
 <EditScreen>:
     # code_input: code_input

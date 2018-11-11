@@ -1,4 +1,6 @@
+from pathlib import Path
 import os
+import subprocess
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -86,7 +88,23 @@ class EditScreen(Screen):
 
 
 class NewProjectScreen(Screen):
-    pass
+    new_project_name = ObjectProperty(None)
+    project_location = ObjectProperty(None)
+
+    def create_project(self):
+        project_dir_location = Path(self.project_location.text)
+        project_files_dir = project_dir_location / self.new_project_name.text
+        if not os.path.exists(project_dir_location):
+            os.mkdir(project_dir_location)
+        if not os.path.exists(project_files_dir):
+            os.mkdir(project_files_dir)
+        # print(project_files_dir)
+        # result = subprocess.run(("cd", project_files_dir),
+        #                         shell=True, stdout=subprocess.PIPE)
+        # print(result)
+        # result = subprocess.run(
+        #     ("python -u -m pipenv install"), shell=True, stdout=subprocess.PIPE)
+        # print(result)
 
 
 class WelcomeScreen(Screen):
