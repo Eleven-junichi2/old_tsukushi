@@ -1,6 +1,7 @@
 #:kivy 1.10.1
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 #:import Path pathlib.Path
+#:import FolderChooserPopup main.FolderChooserPopup
 
 <Label>:
     font_name: "NotoSansCJKjp"
@@ -32,6 +33,51 @@
 
 <ActionBar>:
     background_image: "images/action_bar.png"
+
+
+<FileChooser>:
+    path: str(Path.home())
+
+
+<ProjectLocationChooser>:
+    file_chooser: file_chooser
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            Button:
+                text: "Icon View"
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_press: file_chooser.view_mode = "icon"
+            Button:
+                text: "List View"
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_press: file_chooser.view_mode = "list"
+        FileChooser:
+            id: file_chooser
+            filters: [root.is_dir]
+            dirselect: True
+            FileChooserIconLayout
+            FileChooserListLayout
+        TextInput:
+            text: str(file_chooser.selection)
+            font_size: sp(16)
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+        Button:
+            text: "Select"
+            font_size: sp(24)
+            size_hint_y: None
+            height: self.texture_size[1]
+            on_release: root.close_chooser_user(file_chooser.selection[0])
+
+
+<FolderChooserPopup>
 
 
 <EditPanelHeader>:
@@ -159,7 +205,6 @@
         Rectangle:
             size: self.size
             pos: self.pos
-
     BoxLayout:
         orientation: "vertical"
         padding: dp(15), dp(15), dp(15), root.height * 0.301212121
@@ -217,6 +262,8 @@
                             icon: "images/open-file_icon.png"
                             size_hint_x: 0.3
                             # allow_stretch: True
+                            on_release:
+                                FolderChooserPopup(project_location, "text").open()
                     Label:
                         text: "Your project will be created within a new child directory."
                         color: get_color_from_hex("#E8E8E8")

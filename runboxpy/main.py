@@ -1,13 +1,13 @@
+import os
+
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader
-from kivy.graphics.texture import Texture
-from kivy.uix.image import Image
+from kivy.uix.popup import Popup
 from kivy.properties import (
     StringProperty, ObjectProperty, NumericProperty, ReferenceListProperty)
-# from kivy.garden.xpopup import XFileSave
 from kivy.core.text import LabelBase
 from kivy.config import Config
 
@@ -27,6 +27,32 @@ class IconButton(Button):
     padding_bottom = NumericProperty(0)
     padding = ReferenceListProperty(
         padding_left, padding_top, padding_right, padding_bottom)
+
+
+class ProjectLocationChooser(RelativeLayout):
+    def __init__(self, chooser_user, **kwargs):
+        super().__init__(**kwargs)
+        self.chooser_user = chooser_user
+
+    def is_dir(self, directory, filename):
+        return os.path.isdir(os.path.join(directory, filename))
+
+    def close_chooser_user(self, result):
+        self.chooser_user.close(result)
+
+
+class FolderChooserPopup(Popup):
+    def __init__(self, result_reciver, attr_name_to_assign_result: str,
+                 file_browser=ProjectLocationChooser, **kwargs):
+        super().__init__(**kwargs)
+        kwargs.pop("content", None)
+        self.result_reciver = result_reciver
+        self.attr_name_to_assign_result = attr_name_to_assign_result
+        self.content = file_browser(self)
+
+    def close(self, result):
+        setattr(self.result_reciver, self.attr_name_to_assign_result, result)
+        self.dismiss()
 
 
 class EditPanel(RelativeLayout):
