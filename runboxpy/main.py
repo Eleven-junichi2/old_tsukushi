@@ -37,7 +37,7 @@ class ProjectLocationChooser(RelativeLayout):
     def is_dir(self, directory, filename):
         return os.path.isdir(os.path.join(directory, filename))
 
-    def close_chooser_user(self, result):
+    def close_chooser_user(self, result=None):
         self.chooser_user.close(result)
 
 
@@ -50,8 +50,10 @@ class FolderChooserPopup(Popup):
         self.attr_name_to_assign_result = attr_name_to_assign_result
         self.content = file_browser(self)
 
-    def close(self, result):
-        setattr(self.result_reciver, self.attr_name_to_assign_result, result)
+    def close(self, result=None):
+        if result is not None:
+            setattr(self.result_reciver, self.attr_name_to_assign_result,
+                    result)
         self.dismiss()
 
 
