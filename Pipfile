@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+cython = "*"
+kivy = "*"
+"autopep8" = "*"
+pillow = "*"
+
+[dev-packages]
+"flake8" = "*"
+
+[requires]
+python_version = "3.7"
