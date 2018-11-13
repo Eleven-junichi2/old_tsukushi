@@ -150,6 +150,30 @@
                         rectangle: self.x, self.y, self.width, self.height
                 id: file_browser
                 orientation: "vertical"
+                BoxLayout:
+                    canvas.before:
+                        Color:
+                            rgba: get_color_from_hex("#8B8B8B")
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        Color:
+                            rgba: get_color_from_hex("#607D8B")
+                        Line:
+                            width: dp(1)
+                            rectangle: self.x, self.y, self.width, self.height
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: dp(40)
+                    padding: 0, 5
+                    IconButton:
+                        icon: "images/add-file_icon.png"
+                        size_hint: None, None
+                        size: 30, 30
+                        padding: [4, 4.5, 4, 4.5]
+                        # on_release:
+                    # IconButton:
+                        # icon: "images/add-dir_icon.png"
                 TreeView:
                     id: tree_view
                     root_options: {"text": "{}({})".format(root.project_name, root.project_dir), "font_size": sp(16), "color": get_color_from_hex("#000000")}

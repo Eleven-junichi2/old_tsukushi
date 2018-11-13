@@ -87,6 +87,8 @@ class Editor(RelativeLayout):
         self.project_dir = project_dir
         self.project_name = Path(self.project_dir).parts[-1]
 
+    # def add_file(self, )
+
 
 class EditScreen(Screen):
     editor = ObjectProperty(None)
