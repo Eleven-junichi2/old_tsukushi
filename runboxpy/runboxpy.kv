@@ -11,6 +11,7 @@
     font_name: "NotoSansCJKjp"
     background_normal: "images/code_input.png"
     background_active: "images/code_input.png"
+    color: get_color_from_hex("#000000")
 
 
 <Button>:
@@ -88,11 +89,6 @@
                 height: self.texture_size[1]
                 on_release:
                     root.close_chooser_user()
-
-
-<FolderChooserPopup>
-
-
 <EditPanelHeader>:
     text: ""
     BoxLayout:
@@ -129,7 +125,22 @@
         orientation: "horizontal"
 
 
+<FileTreeViewNode>:
+    file_name_input: file_name_input
+    size_hint_y: None
+    height: file_name_input.height
+    TextInput:
+        id: file_name_input
+        pos: self.parent.pos
+        width: self.parent.width
+        font_size: sp(16)
+        size_hint_y: None
+        height: self.minimum_height
+
+
 <Editor>:
+    file_browser: file_browser
+    edit_area: edit_area
     BoxLayout:
         orientation: "horizontal"
         Splitter:
@@ -148,7 +159,6 @@
                     Line:
                         width: dp(1)
                         rectangle: self.x, self.y, self.width, self.height
-                id: file_browser
                 orientation: "vertical"
                 BoxLayout:
                     canvas.before:
@@ -171,11 +181,11 @@
                         size_hint: None, None
                         size: 30, 30
                         padding: [4, 4.5, 4, 4.5]
-                        # on_release:
+                        on_release: root.add_file()
                     # IconButton:
                         # icon: "images/add-dir_icon.png"
                 TreeView:
-                    id: tree_view
+                    id: file_browser
                     root_options: {"text": "{}({})".format(root.project_name, root.project_dir), "font_size": sp(16), "color": get_color_from_hex("#000000")}
                 # TextInput:
                 #     text: file_chooser.path

@@ -5,8 +5,10 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.button import Button
 from kivy.uix.relativelayout import RelativeLayout
+from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader
 from kivy.uix.popup import Popup
+from kivy.uix.treeview import TreeViewNode
 from kivy.properties import (
     StringProperty, ObjectProperty, NumericProperty, ReferenceListProperty)
 from kivy.core.text import LabelBase
@@ -78,8 +80,16 @@ class EditArea(TabbedPanel):
         self.add_widget(edit_panel_header)
 
 
+class FileTreeViewNode(FloatLayout, TreeViewNode):
+    file_name_input = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class Editor(RelativeLayout):
     file_browser = ObjectProperty(None)
+    edit_area = ObjectProperty(None)
     project_name = StringProperty("")
     project_dir = StringProperty("")
 
@@ -87,7 +97,12 @@ class Editor(RelativeLayout):
         self.project_dir = project_dir
         self.project_name = Path(self.project_dir).parts[-1]
 
-    # def add_file(self, )
+    def file_tree_select_node(self, node):
+        self.edit_area.add_panel()
+
+    def add_file(self):
+        file_tree_view_node = FileTreeViewNode()
+        self.file_browser.add_node(file_tree_view_node)
 
 
 class EditScreen(Screen):
