@@ -1,0 +1,388 @@
+#:kivy 1.10.1
+#:import get_color_from_hex kivy.utils.get_color_from_hex
+#:import Path pathlib.Path
+#:import FolderChooserPopup main.FolderChooserPopup
+
+<Label>:
+    font_name: "NotoSansCJKjp"
+
+
+<TextInput>:
+    font_name: "NotoSansCJKjp"
+    background_normal: "images/code_input.png"
+    background_active: "images/code_input.png"
+    color: get_color_from_hex("#000000")
+
+
+<Button>:
+    background_normal: "images/button.png"
+    background_down: "images/button_pressed.png"
+    border: 2, 2, 2, 2
+
+
+<IconButton>:
+    Widget:
+        pos: self.parent.pos
+        size: self.parent.size
+        canvas.before:
+            Rectangle:
+                source: root.icon
+                pos: self.x + root.padding_left, self.y + root.padding_bottom
+                size: self.width - root.padding_right * 2, self.height - root.padding_top * 2
+                
+
+
+<ActionBar>:
+    background_image: "images/action_bar.png"
+
+
+<FileChooser>:
+    path: str(Path.home())
+
+
+<ProjectLocationChooser>:
+    file_chooser: file_chooser
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15)
+        BoxLayout:
+            size_hint_y: None
+            height: self.minimum_height
+            Button:
+                text: "Icon View"
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_press: file_chooser.view_mode = "icon"
+            Button:
+                text: "List View"
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_press: file_chooser.view_mode = "list"
+        FileChooser:
+            id: file_chooser
+            filters: [root.is_dir]
+            dirselect: True
+            FileChooserIconLayout
+            FileChooserListLayout
+        TextInput:
+            text: str(file_chooser.selection)
+            font_size: sp(16)
+            multiline: False
+            size_hint_y: None
+            height: self.minimum_height
+        BoxLayout:
+            orientation: "horizontal"
+            size_hint_y: None
+            height: self.minimum_height
+            Button:
+                text: "Select"
+                font_size: sp(24)
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_release:
+                    if file_chooser.selection:\
+                    root.close_chooser_user(file_chooser.selection[0])
+            Button:
+                text: "Cancel"
+                font_size: sp(24)
+                size_hint_y: None
+                height: self.texture_size[1]
+                on_release:
+                    root.close_chooser_user()
+<EditPanelHeader>:
+    text: ""
+    BoxLayout:
+        pos: root.pos
+        size: root.width, self.minimum_height
+        padding: dp(2)
+        Label:
+            text: root.text
+        Button:
+            id: close_tab_button
+            text: "x"
+            size_hint: None, None
+            width: self.texture_size[1]
+            height: self.texture_size[1]
+            on_release:
+                root.panel.remove_widget(root)
+                root.content.clear_widgets()
+
+
+<EditPanel>:
+    CodeInput:
+
+
+<EditArea>:
+    panels: panels
+    # panel_headers: panel_headers
+    do_default_tab: False
+    tab_pos: 'top_left'
+    FloatLayout:
+        id: panels
+    # BoxLayout:
+    #     id: panel_headers
+    #     orientation: "horizontal"
+        
+
+
+<FileTreeViewNode>:
+    file_name_input: file_name_input
+    size_hint_y: None
+    height: file_name_input.height
+    on_touch_down: self.treeview_user.select_node(self)
+    TextInput:
+        pos: self.parent.pos
+        width: self.parent.width
+        id: file_name_input
+        font_size: sp(16)
+        size_hint_y: None
+        height: self.minimum_height
+        multiline: False
+        background_color: 1, 1, 1, 0.44
+        text: "untitled"
+
+
+<Editor>:
+    file_browser: file_browser
+    edit_area: edit_area
+    BoxLayout:
+        orientation: "horizontal"
+        Splitter:
+            min_size: self.parent.width * 0.22
+            max_size: self.parent.width * 0.78
+            sizable_from: "right"
+            BoxLayout:
+                canvas.before:
+                    Color:
+                        rgba: get_color_from_hex("#D1D1D1")
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                    Color:
+                        rgba: get_color_from_hex("#607D8B")
+                    Line:
+                        width: dp(1)
+                        rectangle: self.x, self.y, self.width, self.height
+                orientation: "vertical"
+                BoxLayout:
+                    canvas.before:
+                        Color:
+                            rgba: get_color_from_hex("#8B8B8B")
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+                        Color:
+                            rgba: get_color_from_hex("#607D8B")
+                        Line:
+                            width: dp(1)
+                            rectangle: self.x, self.y, self.width, self.height
+                    orientation: "horizontal"
+                    size_hint_y: None
+                    height: dp(40)
+                    padding: 0, 5
+                    IconButton:
+                        icon: "images/add-file_icon.png"
+                        size_hint: None, None
+                        size: 30, 30
+                        padding: [4, 4.5, 4, 4.5]
+                        on_release: root.add_file()
+                    # IconButton:
+                        # icon: "images/add-dir_icon.png"
+                TreeView:
+                    id: file_browser
+                    root_options: {"text": "{}".format(root.project_name), "font_size": sp(16), "color": get_color_from_hex("#000000")}
+                # TextInput:
+                #     text: file_chooser.path
+                #     font_size: sp(12)
+                #     multiline: False
+                #     size_hint_y: None
+                #     height: self.minimum_height
+                # FileChooser:
+                #     id: file_chooser
+                #     path: str(Path.home())
+                #     FileChooserListLayout
+                #     # on_: print(f"touch, {self.selection}")
+                # Button:
+                #     text: "Open"
+                #     size_hint_y: None
+                #     height: self.texture_size[1]
+                #     on_release: edit_area.add_panel()
+        EditArea:
+            id: edit_area
+
+
+<WelcomeScreen>:
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15)
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+        BoxLayout:
+            orientation: "vertical"
+            padding: root.width * 0.241935484, root.height * 0.113636364, root.width * 0.241935484, root.height * 0.295454545
+            spacing: root.height * 0.113636364
+            Image:
+                source: "images/logo.png"
+                height: dp(45)
+                size_hint_y: None
+                allow_stretch: True
+            BoxLayout:
+                orientation: "horizontal"
+                spacing: root.width * 0.048387097
+                IconButton:
+                    icon: "images/open-file_icon.png"
+                    padding: [25, 29.4, 25, 29.4]
+                IconButton:
+                    icon: "images/new-file_icon.png"
+                    padding: [25, 25, 25, 25]
+                    on_release: root.manager.current = "new_project"
+                IconButton:
+                    icon: "images/explore_icon.png"
+                    padding: [25, 25, 25, 25]
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+
+
+<NewProjectScreen>:
+    new_project_name: new_project_name
+    project_location: project_location
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15), dp(15), root.height * 0.301212121
+        spacing: root.height * 0.187575758
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+        BoxLayout:
+            orientation: "vertical"
+            padding: root.width * 0.335483871, 0
+            spacing: dp(22)
+            BoxLayout:
+                orientation: "vertical"
+                spacing: dp(8)
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Project name"
+                        font_size: sp(21)
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                    TextInput:
+                        id: new_project_name
+                        size_hint_y: None
+                        height: dp(34)
+                        multiline: False
+                BoxLayout:
+                    orientation: "vertical"
+                    size_hint_y: None
+                    height: self.minimum_height
+                    Label:
+                        text: "Project location"
+                        font_size: sp(21)
+                        size_hint_y: None
+                        height: self.texture_size[1]
+                        text_size: root.width, None
+                        halign: "center"
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        height: self.minimum_height
+                        TextInput:
+                            id: project_location
+                            text: str(Path.home() / "Projects")
+                            size_hint_y: None
+                            height: dp(34)                        
+                            multiline: False
+                        IconButton:
+                            icon: "images/open-file_icon.png"
+                            padding: [15, 3.9, 15, 3.9]
+                            size_hint_x: None
+                            width: dp(60)
+                            on_release:
+                                FolderChooserPopup(project_location, "text").open()
+                    Label:
+                        text: "Your project will be created within a new child directory."
+                        color: get_color_from_hex("#E8E8E8")
+                        font_size: sp(16)
+                        text_size: root.width, None
+                        halign: "center"
+                        size_hint_y: None
+                        height: self.texture_size[1]
+            Button:
+                text: "Create"
+                color: get_color_from_hex("#EDED95")
+                font_size: sp(24)
+                size_hint_y: None
+                text_size: self.width, None
+                halign: "center"
+                size: self.texture_size[0] + dp(115) * 2, self.texture_size[1] + dp(9.7) * 2
+                on_release:
+                    root.create_project()
+                    edit_screen = root.manager.get_screen("edit")
+                    project_files_dir = str(Path(project_location.text) / new_project_name.text)
+                    edit_screen.editor.open_project(project_files_dir)
+                    root.manager.current = "edit"
+
+<EditScreen>:
+    editor: editor
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: 10, 10
+        spacing: 10
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+                    ActionButton:
+                        icon: "images/open-file_icon.png"
+                        width: self.height
+                    ActionButton:
+                        icon: "images/save-file_icon.png"
+                        width: self.height
+                    ActionButton:
+                        icon: "images/new-file_icon.png"
+                        width: self.height
+        Editor:
+            id: editor
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 1, 1, 1, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+                    source: "images/action_bar.png"
+            orientation: "horizontal"
+            height: dp(60)
+            size_hint_y: None
+            Button:
+                text: "Run script"
