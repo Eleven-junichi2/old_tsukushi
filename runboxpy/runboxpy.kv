@@ -92,23 +92,20 @@
 <EditPanelHeader>:
     text: ""
     BoxLayout:
-        pos: self.parent.pos
-        size: self.parent.size
+        pos: root.pos
+        size: root.width, self.minimum_height
         padding: dp(2)
         Label:
             text: root.text
-        BoxLayout:
-            AnchorLayout:
-                anchor_x: "right"
-                Button:
-                    id: close_tab_button
-                    text: "x"
-                    size_hint: None, None
-                    width: self.texture_size[1]
-                    height: self.texture_size[1]
-                    on_release:
-                        root.parent.remove_widget(root)
-                        root.content.clear_widgets()
+        Button:
+            id: close_tab_button
+            text: "x"
+            size_hint: None, None
+            width: self.texture_size[1]
+            height: self.texture_size[1]
+            on_release:
+                root.panel.remove_widget(root)
+                root.content.clear_widgets()
 
 
 <EditPanel>:
@@ -117,25 +114,32 @@
 
 <EditArea>:
     panels: panels
+    # panel_headers: panel_headers
     do_default_tab: False
+    tab_pos: 'top_left'
     FloatLayout:
         id: panels
-    BoxLayout:
-        id: panel_headers
-        orientation: "horizontal"
+    # BoxLayout:
+    #     id: panel_headers
+    #     orientation: "horizontal"
+        
 
 
 <FileTreeViewNode>:
     file_name_input: file_name_input
     size_hint_y: None
     height: file_name_input.height
+    on_touch_down: self.treeview_user.select_node(self)
     TextInput:
-        id: file_name_input
         pos: self.parent.pos
         width: self.parent.width
+        id: file_name_input
         font_size: sp(16)
         size_hint_y: None
         height: self.minimum_height
+        multiline: False
+        background_color: 1, 1, 1, 0.44
+        text: "untitled"
 
 
 <Editor>:

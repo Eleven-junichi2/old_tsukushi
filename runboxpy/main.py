@@ -65,7 +65,8 @@ class EditPanel(RelativeLayout):
 
 
 class EditPanelHeader(TabbedPanelHeader):
-    pass
+    content = ObjectProperty(None)
+    panel = ObjectProperty(None)
 
 
 class EditArea(TabbedPanel):
@@ -75,16 +76,26 @@ class EditArea(TabbedPanel):
     def add_panel(self):
         edit_panel_header = EditPanelHeader()
         edit_panel = EditPanel()
+
         edit_panel_header.content = edit_panel
-        self.panels.add_widget(EditPanelHeader())
+        edit_panel_header.panel = self
+
+        self.panels.add_widget(edit_panel)
         self.add_widget(edit_panel_header)
 
 
 class FileTreeViewNode(FloatLayout, TreeViewNode):
     file_name_input = ObjectProperty(None)
+    treeview_user = ObjectProperty(None)
 
-    def __init__(self, **kwargs):
+    def __init__(self, treeview_user, **kwargs):
         super().__init__(**kwargs)
+        if (hasattr(treeview_user, "select_node") and
+                callable(getattr(treeview_user, "select_node"))):
+            self.treeview_user = treeview_user
+        else:
+            raise ValueError(
+                f"{treeview_user} doesn't have select_node method.")
 
 
 class Editor(RelativeLayout):
@@ -97,11 +108,11 @@ class Editor(RelativeLayout):
         self.project_dir = project_dir
         self.project_name = Path(self.project_dir).parts[-1]
 
-    def file_tree_select_node(self, node):
+    def select_node(self, node):
         self.edit_area.add_panel()
 
     def add_file(self):
-        file_tree_view_node = FileTreeViewNode()
+        file_tree_view_node = FileTreeViewNode(self)
         self.file_browser.add_node(file_tree_view_node)
 
 
