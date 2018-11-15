@@ -67,17 +67,27 @@ class EditPanel(RelativeLayout):
 class EditPanelHeader(TabbedPanelHeader):
     content = ObjectProperty(None)
     panel = ObjectProperty(None)
+    label = ObjectProperty(None)
+
+    def __init__(self, panel_opener, **kwargs):
+        super().__init__(**kwargs)
+        self.panel_opener = panel_opener
+
+    def close_panel(self):
+        self.panel_opener.open_flag = 0
+        self.panel.remove_widget(self)
+        self.content.clear_widgets()
 
 
 class EditArea(TabbedPanel):
     panels = ObjectProperty(None)
-    panel_headers = ObjectProperty(None)
 
-    def add_panel(self):
-        edit_panel_header = EditPanelHeader()
+    def add_panel(self, opener, text=""):
+        edit_panel_header = EditPanelHeader(opener)
         edit_panel = EditPanel()
 
         edit_panel_header.content = edit_panel
+        edit_panel_header.label.text = text
         edit_panel_header.panel = self
 
         self.panels.add_widget(edit_panel)
@@ -96,6 +106,12 @@ class FileTreeViewNode(FloatLayout, TreeViewNode):
         else:
             raise ValueError(
                 f"{treeview_user} doesn't have select_node method.")
+        self.open_flag = 0
+
+    def select_node(self):
+        self.open_flag += 1
+        if self.open_flag < 2:
+            self.treeview_user.select_node(self)
 
 
 class Editor(RelativeLayout):
@@ -109,11 +125,19 @@ class Editor(RelativeLayout):
         self.project_name = Path(self.project_dir).parts[-1]
 
     def select_node(self, node):
-        self.edit_area.add_panel()
+        print(f"odd: {node.odd}")
+        print(f"is_selected: {node.is_selected}")
+        self.edit_area.add_panel(node, node.file_name_input.text)
 
-    def add_file(self):
+    def add_file_tree_node(self):
         file_tree_view_node = FileTreeViewNode(self)
         self.file_browser.add_node(file_tree_view_node)
+
+    def add_file(self):
+        self.add_file_tree_node()
+
+    def update_file_tree(self):
+        pass
 
 
 class EditScreen(Screen):

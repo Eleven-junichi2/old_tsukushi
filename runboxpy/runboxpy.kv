@@ -90,13 +90,13 @@
                 on_release:
                     root.close_chooser_user()
 <EditPanelHeader>:
-    text: ""
+    label: label
     BoxLayout:
         pos: root.pos
         size: root.width, self.minimum_height
         padding: dp(2)
         Label:
-            text: root.text
+            id: label
         Button:
             id: close_tab_button
             text: "x"
@@ -104,8 +104,7 @@
             width: self.texture_size[1]
             height: self.texture_size[1]
             on_release:
-                root.panel.remove_widget(root)
-                root.content.clear_widgets()
+                root.close_panel()
 
 
 <EditPanel>:
@@ -114,14 +113,10 @@
 
 <EditArea>:
     panels: panels
-    # panel_headers: panel_headers
     do_default_tab: False
     tab_pos: 'top_left'
     FloatLayout:
         id: panels
-    # BoxLayout:
-    #     id: panel_headers
-    #     orientation: "horizontal"
         
 
 
@@ -129,7 +124,9 @@
     file_name_input: file_name_input
     size_hint_y: None
     height: file_name_input.height
-    on_touch_down: self.treeview_user.select_node(self)
+    on_touch_down:
+        if self.is_leaf:\
+        self.select_node()
     TextInput:
         pos: self.parent.pos
         width: self.parent.width
@@ -191,22 +188,6 @@
                 TreeView:
                     id: file_browser
                     root_options: {"text": "{}".format(root.project_name), "font_size": sp(16), "color": get_color_from_hex("#000000")}
-                # TextInput:
-                #     text: file_chooser.path
-                #     font_size: sp(12)
-                #     multiline: False
-                #     size_hint_y: None
-                #     height: self.minimum_height
-                # FileChooser:
-                #     id: file_chooser
-                #     path: str(Path.home())
-                #     FileChooserListLayout
-                #     # on_: print(f"touch, {self.selection}")
-                # Button:
-                #     text: "Open"
-                #     size_hint_y: None
-                #     height: self.texture_size[1]
-                #     on_release: edit_area.add_panel()
         EditArea:
             id: edit_area
 
@@ -288,6 +269,7 @@
                         size_hint_y: None
                         height: self.texture_size[1]
                     TextInput:
+                        text: "testrunboxpy"
                         id: new_project_name
                         size_hint_y: None
                         height: dp(34)
