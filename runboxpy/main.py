@@ -78,6 +78,9 @@ class EditPanelHeader(TabbedPanelHeader):
         self.panel.remove_widget(self)
         self.content.clear_widgets()
 
+    def rename_file(self, new_name):
+        self.label.text = new_name
+
 
 class EditArea(TabbedPanel):
     panels = ObjectProperty(None)
@@ -92,26 +95,28 @@ class EditArea(TabbedPanel):
 
         self.panels.add_widget(edit_panel)
         self.add_widget(edit_panel_header)
+        opener.file_showner = edit_panel_header
 
 
 class FileTreeViewNode(FloatLayout, TreeViewNode):
     file_name_input = ObjectProperty(None)
     treeview_user = ObjectProperty(None)
 
-    def __init__(self, treeview_user, **kwargs):
+    def __init__(self, treeview_user, file_showner=None, **kwargs):
         super().__init__(**kwargs)
-        if (hasattr(treeview_user, "select_node") and
-                callable(getattr(treeview_user, "select_node"))):
-            self.treeview_user = treeview_user
-        else:
-            raise ValueError(
-                f"{treeview_user} doesn't have select_node method.")
+        self.treeview_user = treeview_user
+        self.file_showner = file_showner
         self.open_flag = 0
 
     def select_node(self):
         self.open_flag += 1
         if self.open_flag < 2:
             self.treeview_user.select_node(self)
+
+    def on_rename_file(self):
+        self.treeview_user.rename_file(self.file_name_input.text)
+        if self.file_showner:
+            self.file_showner.rename_file(self.file_name_input.text)
 
 
 class Editor(RelativeLayout):
@@ -136,8 +141,9 @@ class Editor(RelativeLayout):
     def add_file(self):
         self.add_file_tree_node()
 
-    def update_file_tree(self):
+    def rename_file(self, new_name):
         pass
+        # self.edit_area.
 
 
 class EditScreen(Screen):

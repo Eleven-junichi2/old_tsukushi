@@ -94,9 +94,11 @@
     BoxLayout:
         pos: root.pos
         size: root.width, self.minimum_height
-        padding: dp(2)
+        padding: 2, 2
         Label:
             id: label
+            shorten: True
+            text_size: self.width, None
         Button:
             id: close_tab_button
             text: "x"
@@ -137,6 +139,7 @@
         multiline: False
         background_color: 1, 1, 1, 0.44
         text: "untitled"
+        on_text_validate: root.on_rename_file()
 
 
 <Editor>:
