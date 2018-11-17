@@ -139,7 +139,6 @@
         multiline: False
         background_color: 1, 1, 1, 0.44
         text: "untitled"
-        on_text_validate: root.on_rename_file()
 
 
 <Editor>:
@@ -184,10 +183,14 @@
                         icon: "images/add-file_icon.png"
                         size_hint: None, None
                         size: 30, 30
-                        padding: [4, 4.5, 4, 4.5]
+                        padding: [4.6, 4, 4.6, 4]
                         on_release: root.add_file()
-                    # IconButton:
-                        # icon: "images/add-dir_icon.png"
+                    IconButton:
+                        icon: "images/add-dir_icon.png"
+                        size_hint: None, None
+                        size: 30, 30
+                        padding: [4.6, 5, 4.6, 5]
+                        on_release: root.add_dir()
                 TreeView:
                     id: file_browser
                     root_options: {"text": "{}".format(root.project_name), "font_size": sp(16), "color": get_color_from_hex("#000000")}

@@ -100,23 +100,36 @@ class EditArea(TabbedPanel):
 
 class FileTreeViewNode(FloatLayout, TreeViewNode):
     file_name_input = ObjectProperty(None)
-    treeview_user = ObjectProperty(None)
 
+
+class FileTreeViewFileNode(FileTreeViewNode):
     def __init__(self, treeview_user, file_showner=None, **kwargs):
         super().__init__(**kwargs)
         self.treeview_user = treeview_user
         self.file_showner = file_showner
         self.open_flag = 0
+        self.file_name_input.bind(text=self.on_rename)
 
     def select_node(self):
         self.open_flag += 1
         if self.open_flag < 2:
             self.treeview_user.select_node(self)
 
-    def on_rename_file(self):
-        self.treeview_user.rename_file(self.file_name_input.text)
+    def on_rename(self, _, text):
+        self.treeview_user.rename_file(text)
         if self.file_showner:
-            self.file_showner.rename_file(self.file_name_input.text)
+            self.file_showner.rename_file(text)
+
+
+class FileTreeViewDirNode(FileTreeViewNode):
+    def __init__(self, treeview_user, **kwargs):
+        super().__init__(**kwargs)
+        self.treeview_user = treeview_user
+        self.is_leaf = False
+        self.file_name_input.bind(text=self.on_rename)
+
+    def on_rename(self, _, text):
+        self.treeview_user.rename_dir(text)
 
 
 class Editor(RelativeLayout):
@@ -134,14 +147,34 @@ class Editor(RelativeLayout):
         print(f"is_selected: {node.is_selected}")
         self.edit_area.add_panel(node, node.file_name_input.text)
 
-    def add_file_tree_node(self):
-        file_tree_view_node = FileTreeViewNode(self)
-        self.file_browser.add_node(file_tree_view_node)
+    def add_file_tree_file_node(self):
+        selected_node = self.file_browser.selected_node
+        if selected_node and not selected_node.is_leaf:
+            new_node_parent_node = selected_node
+        else:
+            new_node_parent_node = None
+        file_tree_view_node = FileTreeViewFileNode(self)
+        self.file_browser.add_node(file_tree_view_node, new_node_parent_node)
+
+    def add_file_tree_dir_node(self):
+        selected_node = self.file_browser.selected_node
+        if selected_node and not selected_node.is_leaf:
+            new_node_parent_node = selected_node
+        else:
+            new_node_parent_node = None
+        file_tree_view_node = FileTreeViewDirNode(self)
+        self.file_browser.add_node(file_tree_view_node, new_node_parent_node)
 
     def add_file(self):
-        self.add_file_tree_node()
+        self.add_file_tree_file_node()
+
+    def add_dir(self):
+        self.add_file_tree_dir_node()
 
     def rename_file(self, new_name):
+        pass
+
+    def rename_dir(self, new_name):
         pass
         # self.edit_area.
 
