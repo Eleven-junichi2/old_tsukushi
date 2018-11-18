@@ -88,6 +88,7 @@ class TsukushiSM(ScreenManager):
 
 class TsukushiApp(App):
     def build(self):
+        self.icon = "images/icon.png"
         self.screen_manager = TsukushiSM()
         return self.screen_manager
 

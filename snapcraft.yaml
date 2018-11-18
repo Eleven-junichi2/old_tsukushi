@@ -1,7 +1,7 @@
-name: r
+name: Tsukushi
 version: git
 summary: OfflineIMAP
-description: >
+description:
   OfflineIMAP is software that downloads your email mailbox(es) as local
   Maildirs. OfflineIMAP will synchronize both sides via IMAP.
 
@@ -10,7 +10,7 @@ confinement: devmode
 parts:
   offlineimap:
     plugin: python
-    python-version: python2
+    python-version: python3
     source: .
 
 apps:
