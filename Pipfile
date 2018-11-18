@@ -9,7 +9,7 @@ flake8 = "*"
 
 [packages]
 cython = "==0.29"
-kivy = "*"
+kivy = "==1.10.1"
 
 [requires]
 python_version = "3.7"
