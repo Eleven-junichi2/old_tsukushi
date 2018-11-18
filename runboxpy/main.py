@@ -1,17 +1,15 @@
-# from pathlib import Path
+from pathlib import Path
 import os
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.relativelayout import RelativeLayout
-# from kivy.uix.tabbedpanel import TabbedPanel, TabbedPanelHeader
-from kivy.properties import \
-    ObjectProperty
+from kivy.properties import ObjectProperty
 from kivy.core.text import LabelBase
 from kivy.config import Config
-# from filetreeview import FileTreeViewFileNode, FileTreeViewDirNode
 
-# from uix.popup.filepopup import FolderChooserPopup
+from projectmanager import ProjectMaker, Project
+from uix.popup.filepopup import SaveFilePopup, OpenFilePopup
 
 Config.set('graphics', 'width', f'{930}')
 Config.set('graphics', 'height', f'{660}')
@@ -33,21 +31,47 @@ class ProjectLocationChooser(RelativeLayout):
         self.chooser_user.close(result)
 
 
+class EditScreen(Screen):
+    text_input = ObjectProperty(None)
+
+    def open_project(self, project: Project):
+        """
+        Args:
+            project (Project): A project object.
+        """
+        self.project = project
+
+    def show_save_file(self):
+        popup = SaveFilePopup(self)
+        popup.content.file_chooser.path = str(self.project.files_location)
+        popup.content.close = popup.dismiss
+        popup.open()
+
+    def save_file(self, file_chooser):
+        save_location = (Path(file_chooser.file_chooser.path) /
+                         file_chooser.file_name_input.text)
+        with open(str(save_location), "w") as file:
+            file.write(self.text_input.text)
+
+    def show_open_file(self):
+        popup = OpenFilePopup(self)
+        popup.content.file_chooser.path = str(self.project.files_location)
+        popup.content.close = popup.dismiss
+        popup.open()
+
+    def open_file(self, file_chooser):
+        with open(file_chooser.file_chooser.selection[0], "r") as file:
+            self.text_input.text = file.read()
+
+
 class NewProjectScreen(Screen):
     new_project_name = ObjectProperty(None)
     project_location = ObjectProperty(None)
 
-    # def choose_project_location(self):
-    #     FolderChooserPopup(self.project_location, "text",
-    #                        ProjectLocationChooser
-
-    # def create_project(self):
-    #     project_dir_location = Path(self.project_location.text)
-    #     project_files_dir = project_dir_location / self.new_project_name.text
-    #     if not os.path.exists(project_dir_location):
-    #         os.mkdir(project_dir_location)
-    #     if not os.path.exists(project_files_dir):
-    #         os.mkdir(project_files_dir)
+    def create_project(self):
+        project_dir_location = Path(self.project_location.text)
+        project_maker = ProjectMaker(project_dir_location)
+        return project_maker.generate_project(self.new_project_name.text)
 
 
 class WelcomeScreen(Screen):
@@ -59,7 +83,7 @@ class RunboxpySM(ScreenManager):
         super().__init__(**kwargs)
         self.add_widget(WelcomeScreen(name="welcome"))
         self.add_widget(NewProjectScreen(name="new_project"))
-        # self.add_widget(EditScreen(name="edit"))
+        self.add_widget(EditScreen(name="edit"))
 
 
 class RunboxpyApp(App):

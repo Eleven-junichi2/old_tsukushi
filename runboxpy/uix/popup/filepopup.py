@@ -1,4 +1,25 @@
+from pathlib import Path
+
 from kivy.uix.popup import Popup
+from kivy.lang import Builder
+
+from ..filechooser import SaveFileChooser, OpenFileChooser
+
+Builder.load_file(str(Path(__file__).parent / "filepopup.kv"))
+
+
+class SaveFilePopup(Popup):
+    def __init__(self, file_chooser_user, **kwargs):
+        super().__init__(**kwargs)
+        self.content = SaveFileChooser()
+        self.content.file_chooser_user = file_chooser_user
+
+
+class OpenFilePopup(Popup):
+    def __init__(self, file_chooser_user, **kwargs):
+        super().__init__(**kwargs)
+        self.content = OpenFileChooser()
+        self.content.file_chooser_user = file_chooser_user
 
 
 class FolderChooserPopup(Popup):

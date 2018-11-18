@@ -207,8 +207,34 @@
                 halign: "center"
                 size: self.texture_size[0] + dp(115) * 2, self.texture_size[1] + dp(9.7) * 2
                 on_release:
-                    root.create_project()
+                    project = root.create_project()
                     edit_screen = root.manager.get_screen("edit")
-                    project_files_dir = str(Path(project_location.text) / new_project_name.text)
-                    edit_screen.editor.open_project(project_files_dir)
+                    edit_screen.open_project(project)
                     root.manager.current = "edit"
+
+<EditScreen>:
+    text_input: text_input
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15), dp(15), dp(15)
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+                    ActionButton:
+                        text: "Open"
+                        on_release: root.show_open_file()
+                    ActionButton:
+                        text: "Save"
+                        on_release: root.show_save_file()
+        CodeInput:
+            id: text_input
