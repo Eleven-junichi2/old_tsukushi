@@ -10,10 +10,14 @@ description: |
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: devmode # use 'strict' once you have the right plugs and slots
 
+apps: 
+  tsukushi:
+    command: bin/tsukushi
+
 parts:
   tsukushi:
     source: https://github.com/Eleven-junichi2/tsukushi.git
     source-tag: v1.0
     plugin: python
     python-version: python3
-    requirements: 
+    requirements: https://github.com/Eleven-junichi2/tsukushi/blob/master/requirements.txt

@@ -1,2 +1,6 @@
 # runboxpy
-A Python visual programming kit.
+Tsukushi is a code editor.
+
+feature:
+- Syntax highlight for python
+- Project generation

@@ -1,19 +1,24 @@
 from setuptools import setup
 
+with open("README.md") as f:
+    readme = f.read()
+
+with open("LICENSE") as f:
+    license = f.read()
+
+requires = ["cython", "kivy"]
+
 setup(
     name="tsukushi",
-    version="1.0",
-    install_requires=["cython", "kivy"],
-    # extras_require={
-    #     "develop": ["dev-packageA", "dev-packageB"]
-    # },
+    description='A code editor created by kivy.',
+    long_description=readme,
+    author="Junichi Suetsugu",
+    install_requires=requires,
+    test_suite="tests",
+    license=license,
     entry_points={
-        "console_scripts": [
-            "foo = package_name.module_name:func_name",
-            "foo_dev = package_name.module_name:func_name [develop]"
-        ],
         "gui_scripts": [
-            "bar = gui_package_name.gui_module_name:gui_func_name"
+            "tsukushi = tsukushi.main:main"
         ]
     }
 )
