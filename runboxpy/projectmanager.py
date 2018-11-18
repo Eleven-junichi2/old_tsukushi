@@ -3,20 +3,24 @@ from pathlib import Path
 
 
 class Project:
-    def __init__(self, generate_location: str, name: str):
-        self.generate_location = Path(generate_location)
-        self.name = name
+    def __init__(self, files_location: str):
+        self.files_location = Path(files_location)
+        self.name = self.files_location.parts[-1]
 
-    def generate_project(self):
+
+class ProjectMaker:
+    def __init__(self, generate_location: str):
+        self.generate_location = Path(generate_location)
+
+    def generate_project(self, name):
         self.make_placing_dir()
-        self.make_project_dir()
+        self.make_project_dir(name)
+        self.files_location = self.generate_location / name
+        return Project(self.files_location)
 
     def make_placing_dir(self):
         self.generate_location.mkdir()
 
-    def make_project_dir(self):
-        files_dir = self.generate_location / self.name
-        files_dir.mkdir()
-
-        # if not os.path.exists(dir_location):
-        # if not os.path.exists(files_dir):
+    def make_project_dir(self, name):
+        self.files_location = self.generate_location / name
+        self.files_location.mkdir()
