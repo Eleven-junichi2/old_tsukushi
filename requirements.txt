@@ -1,0 +1,14 @@
+autopep8==1.4.3
+certifi==2018.10.15
+chardet==3.0.4
+Cython==0.29
+docutils==0.14
+flake8==3.6.0
+idna==2.7
+Kivy-Garden==0.1.4
+mccabe==0.6.1
+pycodestyle==2.4.0
+pyflakes==2.0.0
+Pygments==2.2.0
+requests==2.20.1
+urllib3==1.23

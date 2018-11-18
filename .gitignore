@@ -145,6 +145,21 @@ pip-selfcheck.json
 !.vscode/extensions.json
 
 ### VisualStudioCode Patch ###
+
+### Snapcraft ###
+/parts/
+/stage/
+/prime/
+/*.snap
+
+# Snapcraft global state tracking data(automatically generated)
+# https://forum.snapcraft.io/t/location-to-save-global-state/768
+/snap/.snapcraft/
+
+# Source archive packed by `snapcraft cleanbuild` before pushing to the LXD container
+/*_source.tar.bz2
+
 # Ignore all local history of files
 .history
+
 # End of https://www.gitignore.io/api/python,virtualenv,visualstudiocode

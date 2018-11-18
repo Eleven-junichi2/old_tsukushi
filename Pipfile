@@ -5,11 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 flake8 = "*"
+"autopep8" = "*"
 
 [packages]
-cython = "*"
+cython = "==0.29"
 kivy = "*"
-autopep8 = "*"
 
 [requires]
 python_version = "3.7"
