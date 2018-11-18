@@ -1,0 +1,11 @@
+#:kivy 1.10.1
+
+<IconButton>:
+    Widget:
+        pos: self.parent.pos
+        size: self.parent.size
+        canvas.before:
+            Rectangle:
+                source: root.icon
+                pos: self.x + root.padding_left, self.y + root.padding_bottom
+                size: self.width - root.padding_right * 2, self.height - root.padding_top * 2
