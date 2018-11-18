@@ -1,7 +1,7 @@
 from pathlib import Path
 import unittest
 
-from runboxpy.projectmanager import ProjectMaker
+from tsukushi.projectmanager import ProjectMaker
 
 
 class MockMkdir:
