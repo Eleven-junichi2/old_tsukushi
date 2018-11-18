@@ -78,7 +78,7 @@ class WelcomeScreen(Screen):
     pass
 
 
-class RunboxpySM(ScreenManager):
+class TsukushiSM(ScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_widget(WelcomeScreen(name="welcome"))
@@ -86,14 +86,14 @@ class RunboxpySM(ScreenManager):
         self.add_widget(EditScreen(name="edit"))
 
 
-class RunboxpyApp(App):
+class TsukushiApp(App):
     def build(self):
-        self.screen_manager = RunboxpySM()
+        self.screen_manager = TsukushiSM()
         return self.screen_manager
 
 
 def main():
-    return RunboxpyApp().run()
+    return TsukushiApp().run()
 
 
 if __name__ == '__main__':

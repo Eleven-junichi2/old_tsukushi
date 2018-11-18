@@ -8,7 +8,7 @@
             "name": "Python: Run App (Integrated Terminal)",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/runboxpy/main.py",
+            "program": "${workspaceFolder}/tsukushi/main.py",
             "console": "integratedTerminal"
         },
         {
