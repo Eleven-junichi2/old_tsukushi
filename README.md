@@ -1,4 +1,4 @@
-# runboxpy
+# Tsukushi
 Tsukushi is a code editor.
 
 feature:
