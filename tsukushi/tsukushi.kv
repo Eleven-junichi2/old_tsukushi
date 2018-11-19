@@ -16,6 +16,7 @@
 <Button>:
     background_normal: "images/button.png"
     background_down: "images/button_pressed.png"
+    background_disabled_normal: "images/button_pressed.png"
     border: 2, 2, 2, 2
 
 
@@ -106,6 +107,7 @@
                 IconButton:
                     icon: "images/open-file_icon.png"
                     padding: [25, 29.4, 25, 29.4]
+                    disabled: True
                 IconButton:
                     icon: "images/new-file_icon.png"
                     padding: [25, 25, 25, 25]
@@ -113,6 +115,7 @@
                 IconButton:
                     icon: "images/explore_icon.png"
                     padding: [25, 25, 25, 25]
+                    disabled: True
         ActionBar:
             height: dp(60)
             size_hint_y: None
