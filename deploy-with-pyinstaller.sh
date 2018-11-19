@@ -1,5 +1,5 @@
 rm -r "dist/"
-LD_LIBRARY_PATH=~/.pyenv/versions/3.7.0/lib python -m PyInstaller --name tsukushi -F -p tsukushi/  tsukushi/main.py
+LD_LIBRARY_PATH=~/.pyenv/versions/3.7.0/lib python -m PyInstaller --name tsukushi -p tsukushi/ -F  tsukushi/main.py
 cp -v "tsukushi/tsukushi.kv" "dist/"
 # cp -v "tsukushi/uix/filechooser.kv" "dist/"
 # cp -v "tsukushi/uix/button.kv" "dist/"

@@ -1,6 +1,7 @@
 #:kivy 1.10.1
 #:import get_color_from_hex kivy.utils.get_color_from_hex
 #:import Path pathlib.Path
+#:import sys sys
 
 <Label>:
     font_name: "NotoSansCJKjp"
@@ -92,6 +93,16 @@
         ActionBar:
             height: dp(60)
             size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release:
+                        app.get_running_app().stop()
+                        sys.exit(0)
+                ActionButton:
+                    text: "License"
+                    on_release: root.manager.current = "license"
+                    
         BoxLayout:
             orientation: "vertical"
             padding: root.width * 0.241935484, root.height * 0.113636364, root.width * 0.241935484, root.height * 0.295454545
@@ -238,3 +249,41 @@
                         on_release: root.show_save_file()
         CodeInput:
             id: text_input
+
+<LicenseScreen>:
+    canvas.before:
+        Color:
+            rgba: get_color_from_hex("#464646")
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        orientation: "vertical"
+        padding: dp(15), dp(15)
+        ActionBar:
+            height: dp(60)
+            size_hint_y: None
+            ActionView:
+                ActionPrevious:
+                    app_icon: ""
+                    on_release: root.manager.current = "welcome"
+        Label:
+            text: "This application"
+        TextInput:
+            text: "https://github.com/Eleven-junichi2/tsukushi/blob/master/LICENSE"
+        Label:
+            text: "Kivy"
+        TextInput:
+            text: "https://github.com/kivy/kivy/blob/master/LICENSE"
+        Label:
+            text: "Doctutils"
+        TextInput:
+            text: "https://sourceforge.net/p/docutils/code/HEAD/tree/trunk/docutils/COPYING.txt"
+        Label:
+            text: "Pygments"
+        TextInput:
+            text: "https://bitbucket.org/birkenfeld/pygments-main/src/tip/LICENSE?fileviewer=file-view-default"
+        Label:
+            text: "GLEW"
+        TextInput:
+            text: "http://glew.sourceforge.net/glew.txt"

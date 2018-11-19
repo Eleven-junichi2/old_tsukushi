@@ -85,10 +85,15 @@ class WelcomeScreen(Screen):
     pass
 
 
+class LicenseScreen(Screen):
+    pass
+
+
 class TsukushiSM(ScreenManager):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.add_widget(WelcomeScreen(name="welcome"))
+        self.add_widget(LicenseScreen(name="license"))
         self.add_widget(NewProjectScreen(name="new_project"))
         self.add_widget(EditScreen(name="edit"))
 
