@@ -7,10 +7,12 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import ObjectProperty
 from kivy.core.text import LabelBase
+from kivy.resources import resource_add_path
 from kivy.config import Config
 
 from projectmanager import ProjectMaker, Project
 from uix.popup.filepopup import SaveFilePopup, OpenFilePopup
+from uix.button import IconButton
 
 Config.set('graphics', 'width', f'{930}')
 Config.set('graphics', 'height', f'{660}')
@@ -18,6 +20,10 @@ Config.set('graphics', 'height', f'{660}')
 LabelBase.register("NotoSansCJKjp",
                    fn_regular="fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf",
                    fn_bold="fonts/NotoSansCJKjp/NotoSansCJKjp-Bold.otf")
+
+
+class IconButton(IconButton):
+    pass
 
 
 class ProjectLocationChooser(RelativeLayout):

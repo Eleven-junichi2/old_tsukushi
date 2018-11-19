@@ -1,11 +1,17 @@
-from pathlib import Path
-
 from kivy.uix.popup import Popup
 from kivy.lang import Builder
 
 from ..filechooser import SaveFileChooser, OpenFileChooser
 
-Builder.load_file(str(Path(sys.argv[0]).parent / "filepopup.kv"))
+Builder.load_string("""
+<SaveFilePopup>:
+    title: "Save file"
+    size_hint: 0.8, 0.8
+
+<OpenFilePopup>:
+    title: "Open file"
+    size_hint: 0.8, 0.8
+""")
 
 
 class SaveFilePopup(Popup):

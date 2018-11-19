@@ -1,11 +1,21 @@
-from pathlib import Path
-
 from kivy.uix.button import Button
 from kivy.properties import (
     StringProperty, NumericProperty, ReferenceListProperty)
 from kivy.lang import Builder
 
-Builder.load_file(str(Path(sys.argv[0]).parent / "button.kv"))
+Builder.load_string("""
+<IconButton>:
+    Widget:
+        pos: self.parent.pos
+        size: self.parent.size
+        canvas.before:
+            Rectangle:
+                source: root.icon
+                pos: self.x + root.padding_left, self.y + root.padding_bottom
+                size:
+                    self.width - root.padding_right * 2, self.height -\\
+                    root.padding_top * 2
+""")
 
 
 class IconButton(Button):
