@@ -5,7 +5,7 @@ from kivy.lang import Builder
 
 from ..filechooser import SaveFileChooser, OpenFileChooser
 
-Builder.load_file(str(Path(__file__).parent / "filepopup.kv"))
+Builder.load_file(str(Path(sys.argv[0]).parent / "filepopup.kv"))
 
 
 class SaveFilePopup(Popup):

@@ -1,10 +1,11 @@
 from pathlib import Path
+import sys
 
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.properties import ObjectProperty
 from kivy.lang import Builder
 
-Builder.load_file(str(Path(__file__).parent / "filechooser.kv"))
+Builder.load_file(str(Path(sys.argv[0]).parent / "filechooser.kv"))
 
 
 class SaveFileChooser(RelativeLayout):

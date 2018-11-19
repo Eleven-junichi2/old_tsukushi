@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import sys
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -98,4 +99,6 @@ def main():
 
 
 if __name__ == '__main__':
+    if hasattr(sys, "_MEIPASS"):
+        resource_add_path(sys._MEIPASS)
     main()
