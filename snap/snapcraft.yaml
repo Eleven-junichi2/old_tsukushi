@@ -10,17 +10,30 @@ description: |
 grade: stable # must be 'stable' to release into candidate/stable channels
 confinement: strict # use 'strict' once you have the right plugs and slots
 
-parts:
-  tsukushi:
-    plugin: dump
-    # source: ./dist/Tsukushi-1.0_x64.tar.xz
-    source: https://github.com/Eleven-junichi2/tsukushi/releases/download/v1.0/Tsukushi-1.0_x64.tar.xz
-    stage-packages:
-      - libc6
-      - libxcb1
-      - zlib1g
-      - libgl1
-
 apps:
   tsukushi:
-    command: tsukushi
+    command: bash "$SNAP/wrapper.sh"
+    plugs:
+      - opengl
+      - x11
+      - unity7
+      - system-observe
+      - hidraw
+      - locale-control
+
+parts:
+  move-src:
+    plugin: dump
+    source: ./tsukushi
+    # source: https://github.com/Eleven-junichi2/tsukushi/releases/download/v1.0/Tsukushi-1.0_x64.tar.xz
+    organize:
+      snap_wrapper.sh: wrapper.sh
+    #   main.py: bin/tsukushi
+
+
+  kivy:
+    plugin: nil
+    build-packages:
+      - python3
+      - python3-kivy
+      - libmtdev1
