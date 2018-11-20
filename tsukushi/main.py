@@ -10,16 +10,23 @@ from kivy.core.text import LabelBase
 from kivy.resources import resource_add_path
 from kivy.config import Config
 
-from projectmanager import ProjectMaker, Project
-from uix.popup.filepopup import SaveFilePopup, OpenFilePopup
-from uix.button import IconButton
+from .projectmanager import ProjectMaker, Project
+from .uix.popup.filepopup import SaveFilePopup, OpenFilePopup
+from .uix.button import IconButton
 
 Config.set('graphics', 'width', f'{930}')
 Config.set('graphics', 'height', f'{660}')
 
+SCRIPT_DIR = Path(__file__).parent
+print(SCRIPT_DIR)
+
 LabelBase.register("NotoSansCJKjp",
-                   fn_regular="fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf",
-                   fn_bold="fonts/NotoSansCJKjp/NotoSansCJKjp-Bold.otf")
+                   fn_regular=str(
+                       SCRIPT_DIR /
+                       "fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf"),
+                   fn_bold=str(
+                       SCRIPT_DIR /
+                       "fonts/NotoSansCJKjp/NotoSansCJKjp-Bold.otf"))
 
 
 class IconButton(IconButton):
@@ -99,8 +106,12 @@ class TsukushiSM(ScreenManager):
 
 
 class TsukushiApp(App):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.script_parent_dir = SCRIPT_DIR
+        self.icon = str(SCRIPT_DIR / "images/icon.png")
+
     def build(self):
-        self.icon = "images/icon.png"
         self.screen_manager = TsukushiSM()
         return self.screen_manager
 

@@ -9,20 +9,20 @@
 
 <TextInput>:
     font_name: "NotoSansCJKjp"
-    background_normal: "images/code_input.png"
-    background_active: "images/code_input.png"
+    background_normal: str(app.script_parent_dir / "images/code_input.png")
+    background_active: str(app.script_parent_dir / "images/code_input.png")
     color: get_color_from_hex("#000000")
 
 
 <Button>:
-    background_normal: "images/button.png"
-    background_down: "images/button_pressed.png"
-    background_disabled_normal: "images/button_pressed.png"
+    background_normal: str(app.script_parent_dir / "images/button.png")
+    background_down: str(app.script_parent_dir / "images/button_pressed.png")
+    background_disabled_normal: str(app.script_parent_dir / "images/button_pressed.png")
     border: 2, 2, 2, 2
 
 
 <ActionBar>:
-    background_image: "images/action_bar.png"
+    background_image: str(app.script_parent_dir / "images/action_bar.png")
 
 
 <FileChooser>:
@@ -108,7 +108,7 @@
             padding: root.width * 0.241935484, root.height * 0.113636364, root.width * 0.241935484, root.height * 0.295454545
             spacing: root.height * 0.113636364
             Image:
-                source: "images/logo.png"
+                source: str(app.script_parent_dir / "images/logo.png")
                 height: dp(45)
                 size_hint_y: None
                 allow_stretch: True
@@ -116,15 +116,15 @@
                 orientation: "horizontal"
                 spacing: root.width * 0.048387097
                 IconButton:
-                    icon: "images/open-file_icon.png"
+                    icon: str(app.script_parent_dir / "images/open-file_icon.png")
                     padding: [25, 29.4, 25, 29.4]
                     disabled: True
                 IconButton:
-                    icon: "images/new-file_icon.png"
+                    icon: str(app.script_parent_dir / "images/new-file_icon.png")
                     padding: [25, 25, 25, 25]
                     on_release: root.manager.current = "new_project"
                 IconButton:
-                    icon: "images/explore_icon.png"
+                    icon: str(app.script_parent_dir / "images/explore_icon.png")
                     padding: [25, 25, 25, 25]
                     disabled: True
         ActionBar:
@@ -196,7 +196,7 @@
                             height: dp(34)                        
                             multiline: False
                         IconButton:
-                            icon: "images/open-file_icon.png"
+                            icon: str(app.script_parent_dir / "images/open-file_icon.png")
                             padding: [15, 3.9, 15, 3.9]
                             size_hint_x: None
                             width: dp(60)
