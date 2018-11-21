@@ -25,13 +25,8 @@ parts:
   tsukushi:
     source: .
     # source: https://github.com/Eleven-junichi2/tsukushi.git
-    source-tag: v1.0.18
-    plugin: python
-    override-build: |
-      curl -O https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
-      tar xvfz Python-3.7.0.tgz
-      cd Python-3.7.0/
-      ./configure --prefix=/usr/local/python370 --with-ensurepip
-      make
-      sudo make install
+    plugin: nil
+    build-packages:
+      - python3.7
+
 
