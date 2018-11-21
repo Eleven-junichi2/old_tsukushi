@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="tsukushi",
     author="Junichi Suetsugu",
-    version="1.0.18",
+    version="1.0.19",
     python_requires="==3.7.0",
     setup_requires=[
         "cython==0.29",
