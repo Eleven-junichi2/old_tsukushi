@@ -12,28 +12,26 @@ confinement: strict # use 'strict' once you have the right plugs and slots
 
 apps:
   tsukushi:
-    command: bash "$SNAP/wrapper.sh"
-    plugs:
-      - opengl
-      - x11
-      - unity7
-      - system-observe
-      - hidraw
-      - locale-control
+    command: tsukushi
+    # plugs:
+    #   - opengl
+    #   - x11
+    #   - unity7
+    #   - system-observe
+    #   - hidraw
+    #   - locale-control
 
 parts:
-  move-src:
-    plugin: dump
-    source: ./tsukushi
-    # source: https://github.com/Eleven-junichi2/tsukushi/releases/download/v1.0/Tsukushi-1.0_x64.tar.xz
-    organize:
-      snap_wrapper.sh: wrapper.sh
-    #   main.py: bin/tsukushi
+  tsukushi:
+    source: .
+    # source: https://github.com/Eleven-junichi2/tsukushi.git
+    source-tag: v1.0.18
+    plugin: python
+    override-build: |
+      curl -O https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+      tar xvfz Python-3.7.0.tgz
+      cd Python-3.7.0/
+      ./configure --prefix=/usr/local/python370 --with-ensurepip
+      make
+      sudo make install
 
-
-  kivy:
-    plugin: nil
-    build-packages:
-      - python3
-      - python3-kivy
-      - libmtdev1

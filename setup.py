@@ -5,6 +5,9 @@ setup(
     author="Junichi Suetsugu",
     version="1.0.18",
     python_requires="==3.7.0",
+    setup_requires=[
+        "cython==0.29",
+    ],
     install_requires=[
         "certifi==2018.10.15",
         "chardet==3.0.4",

@@ -1,4 +1,4 @@
--i https://pypi.org/tsukushi
+-i https://pypi.org/simple
 certifi==2018.10.15
 chardet==3.0.4
 docutils==0.14
