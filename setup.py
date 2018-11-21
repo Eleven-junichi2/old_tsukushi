@@ -4,7 +4,7 @@ setup(
     name="tsukushi",
     author="Junichi Suetsugu",
     version="1.0.19",
-    python_requires="==3.7.0",
+    python_requires="==3.5.3",
     setup_requires=[
         "cython==0.29",
     ],

@@ -25,8 +25,4 @@ parts:
   tsukushi:
     source: .
     # source: https://github.com/Eleven-junichi2/tsukushi.git
-    plugin: nil
-    build-packages:
-      - python3.7
-
-
+    plugin: python
