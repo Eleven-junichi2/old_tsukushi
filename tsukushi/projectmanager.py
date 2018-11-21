@@ -17,16 +17,17 @@ class ProjectMaker:
         self.generate_location = Path(generate_location)
 
     def generate_project(self, name):
+        print("genepro")
         self.make_placing_dir()
         self.make_project_dir(name)
         files_location = self.generate_location / name
         return Project(files_location)
 
     def make_placing_dir(self):
-        if not self.generate_location.exists:
-            self.generate_location.mkdir()
+        print("genepro mplace")
+        self.generate_location.mkdir(exist_ok=True)
 
     def make_project_dir(self, name):
-        files_location = self.generate_location / name
-        if not files_location.exists:
-            files_location.mkdir()
+        print("genepro  mpd")
+        files_location = Path(self.generate_location) / name
+        files_location.mkdir(exist_ok=True)

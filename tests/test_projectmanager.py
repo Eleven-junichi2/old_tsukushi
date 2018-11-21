@@ -1,7 +1,6 @@
-from pathlib import Path
 import unittest
 
-from .tsukushi.projectmanager import ProjectMaker
+from tsukushi.projectmanager import ProjectMaker
 
 
 class MockMkdir:
@@ -9,10 +8,6 @@ class MockMkdir:
 
 
 class TestProjectMaker(unittest.TestCase):
-    def setUp(self):
-        self.orig_mkdir = Path.mkdir
-        Path.mkdir = MockMkdir
-
     def test_generate_project(self):
         project_maker = ProjectMaker("~/Projects")
         project = project_maker.generate_project("test_project")

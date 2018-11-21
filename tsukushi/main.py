@@ -9,15 +9,15 @@ from kivy.core.text import LabelBase
 from kivy.resources import resource_add_path
 from kivy.config import Config
 
-from .projectmanager import ProjectMaker, Project
-from .uix.popup.filepopup import SaveFilePopup, OpenFilePopup
-from .uix.button import IconButton
+from projectmanager import ProjectMaker, Project
+from uix.popup.filepopup import SaveFilePopup, OpenFilePopup
+from uix.button import IconButton
 
-Config.set('graphics', 'width', f'{930}')
-Config.set('graphics', 'height', f'{660}')
+Config.set('graphics', 'width', str(930))
+Config.set('graphics', 'height', str(660))
 
 SCRIPT_DIR = Path(__file__).parent
-resource_add_path(SCRIPT_DIR)
+resource_add_path(str(SCRIPT_DIR))
 
 LabelBase.register("NotoSansCJKjp",
                    fn_regular="fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf",
@@ -77,10 +77,16 @@ class NewProjectScreen(Screen):
     new_project_name = ObjectProperty(None)
     project_location = ObjectProperty(None)
 
-    def create_project(self):
-        project_dir_location = Path(self.project_location.text)
-        project_maker = ProjectMaker(project_dir_location)
-        return project_maker.generate_project(self.new_project_name.text)
+    def create_project(self, after_move_to_edit_screen):
+        if self.new_project_name.text and self.project_location.text:
+            project_dir_location = Path(self.project_location.text)
+            project_maker = ProjectMaker(project_dir_location)
+            project = project_maker.generate_project(
+                self.new_project_name.text)
+            if after_move_to_edit_screen:
+                edit_screen = self.manager.get_screen("edit")
+                edit_screen.open_project(project)
+                self.manager.current = "edit"
 
 
 class WelcomeScreen(Screen):

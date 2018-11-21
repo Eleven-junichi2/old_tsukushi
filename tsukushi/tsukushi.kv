@@ -170,6 +170,7 @@
                         height: self.texture_size[1]
                     TextInput:
                         id: new_project_name
+                        text: ""
                         size_hint_y: None
                         height: dp(34)
                         multiline: False
@@ -216,11 +217,7 @@
                 text_size: self.width, None
                 halign: "center"
                 size: self.texture_size[0] + dp(115) * 2, self.texture_size[1] + dp(9.7) * 2
-                on_release:
-                    project = root.create_project()
-                    edit_screen = root.manager.get_screen("edit")
-                    edit_screen.open_project(project)
-                    root.manager.current = "edit"
+                on_release: root.create_project(True)
 
 <EditScreen>:
     text_input: text_input

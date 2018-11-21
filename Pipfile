@@ -4,17 +4,13 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
+"flake8" = "*"
 "autopep8" = "*"
-pyinstaller = "*"
 twine = "*"
 
 [packages]
 cython = "==0.29"
 kivy = "==1.10.1"
-"flake8" = "*"
-"autopep8" = "*"
-twine = "*"
 
 [requires]
 python_version = "3.5.3"

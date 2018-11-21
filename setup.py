@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="tsukushi",
     author="Junichi Suetsugu",
-    version="1.0.19",
+    version="1.1",
     python_requires="==3.5.3",
     setup_requires=[
         "cython==0.29",
@@ -24,6 +24,9 @@ setup(
     url="https://github.com/Eleven-junichi2/tsukushi",
     entry_points={
         "console_scripts": [
+            "tsukushi = tsukushi.main:main",
+        ],
+        "gui_scripts": [
             "tsukushi = tsukushi.main:main",
         ],
     },
