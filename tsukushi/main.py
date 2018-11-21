@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import sys
 
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -18,15 +17,11 @@ Config.set('graphics', 'width', f'{930}')
 Config.set('graphics', 'height', f'{660}')
 
 SCRIPT_DIR = Path(__file__).parent
-print(SCRIPT_DIR)
+resource_add_path(SCRIPT_DIR)
 
 LabelBase.register("NotoSansCJKjp",
-                   fn_regular=str(
-                       SCRIPT_DIR /
-                       "fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf"),
-                   fn_bold=str(
-                       SCRIPT_DIR /
-                       "fonts/NotoSansCJKjp/NotoSansCJKjp-Bold.otf"))
+                   fn_regular="fonts/NotoSansCJKjp/NotoSansCJKjp-Regular.otf",
+                   fn_bold="fonts/NotoSansCJKjp/NotoSansCJKjp-Bold.otf")
 
 
 class IconButton(IconButton):
@@ -108,8 +103,7 @@ class TsukushiSM(ScreenManager):
 class TsukushiApp(App):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.script_parent_dir = SCRIPT_DIR
-        self.icon = str(SCRIPT_DIR / "images/icon.png")
+        self.icon = "images/icon.png"
 
     def build(self):
         self.screen_manager = TsukushiSM()
@@ -121,6 +115,4 @@ def main():
 
 
 if __name__ == '__main__':
-    if hasattr(sys, "_MEIPASS"):
-        resource_add_path(sys._MEIPASS)
     main()

@@ -9,20 +9,20 @@
 
 <TextInput>:
     font_name: "NotoSansCJKjp"
-    background_normal: str(app.script_parent_dir / "images/code_input.png")
-    background_active: str(app.script_parent_dir / "images/code_input.png")
+    background_normal: "images/code_input.png"
+    background_active: "images/code_input.png"
     color: get_color_from_hex("#000000")
 
 
 <Button>:
-    background_normal: str(app.script_parent_dir / "images/button.png")
-    background_down: str(app.script_parent_dir / "images/button_pressed.png")
-    background_disabled_normal: str(app.script_parent_dir / "images/button_pressed.png")
+    background_normal: "images/button.png"
+    background_down: "images/button_pressed.png"
+    background_disabled_normal: "images/button_pressed.png"
     border: 2, 2, 2, 2
 
 
 <ActionBar>:
-    background_image: str(app.script_parent_dir / "images/action_bar.png")
+    background_image: "images/action_bar.png"
 
 
 <FileChooser>:
@@ -108,7 +108,7 @@
             padding: root.width * 0.241935484, root.height * 0.113636364, root.width * 0.241935484, root.height * 0.295454545
             spacing: root.height * 0.113636364
             Image:
-                source: str(app.script_parent_dir / "images/logo.png")
+                source: "images/logo.png"
                 height: dp(45)
                 size_hint_y: None
                 allow_stretch: True
@@ -116,15 +116,15 @@
                 orientation: "horizontal"
                 spacing: root.width * 0.048387097
                 IconButton:
-                    icon: str(app.script_parent_dir / "images/open-file_icon.png")
+                    icon: "images/open-file_icon.png"
                     padding: [25, 29.4, 25, 29.4]
                     disabled: True
                 IconButton:
-                    icon: str(app.script_parent_dir / "images/new-file_icon.png")
+                    icon: "images/new-file_icon.png"
                     padding: [25, 25, 25, 25]
                     on_release: root.manager.current = "new_project"
                 IconButton:
-                    icon: str(app.script_parent_dir / "images/explore_icon.png")
+                    icon: "images/explore_icon.png"
                     padding: [25, 25, 25, 25]
                     disabled: True
         ActionBar:
@@ -169,7 +169,6 @@
                         size_hint_y: None
                         height: self.texture_size[1]
                     TextInput:
-                        text: "testrunboxpy"
                         id: new_project_name
                         size_hint_y: None
                         height: dp(34)
@@ -193,14 +192,14 @@
                             id: project_location
                             text: str(Path.home() / "Projects")
                             size_hint_y: None
-                            height: dp(34)                        
+                            height: dp(34)
                             multiline: False
                         IconButton:
-                            icon: str(app.script_parent_dir / "images/open-file_icon.png")
+                            icon: "images/open-file_icon.png"
                             padding: [15, 3.9, 15, 3.9]
                             size_hint_x: None
                             width: dp(60)
-                            on_release:
+                            # on_release:
                     Label:
                         text: "Your project will be created within a new child directory."
                         color: get_color_from_hex("#E8E8E8")
@@ -271,6 +270,10 @@
             text: "This application"
         TextInput:
             text: "https://github.com/Eleven-junichi2/tsukushi/blob/master/LICENSE"
+        Label:
+            text: "Noto font"
+        TextInput:
+            text: "https://github.com/googlei18n/noto-fonts/blob/master/LICENSE" 
         Label:
             text: "Kivy"
         TextInput:
